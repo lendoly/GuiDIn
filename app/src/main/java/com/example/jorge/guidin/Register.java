@@ -52,6 +52,7 @@ public class Register extends ActionBarActivity
                     public void onClick(View view){
                         Intent i = new Intent(getActivity(),MainActivity.class);
                         startActivity(i);
+                        finish();
                     }
                 }
         );
