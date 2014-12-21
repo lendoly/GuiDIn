@@ -1,6 +1,7 @@
 package com.example.jorge.guidin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -42,6 +44,22 @@ public class Register extends ActionBarActivity
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer,(DrawerLayout) findViewById(R.id.drawer_layout));
+
+        Button cancelar = (Button)findViewById(R.id.buttonCancel);
+
+        cancelar.setOnClickListener(
+                new View.OnClickListener(){
+                    public void onClick(View view){
+                        Intent i = new Intent(getActivity(),MainActivity.class);
+                        startActivity(i);
+                    }
+                }
+        );
+
+    }
+
+    public Activity getActivity(){
+        return this;
     }
 
     @Override

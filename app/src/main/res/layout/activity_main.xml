@@ -1,11 +1,11 @@
-<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
+<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full dpace available. -->
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/drawer_layout"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
     <!-- As the main content view, the view below consumes the entire
-         space available using match_parent in both dimensions. -->
+         dpace available using match_parent in both dimensions. -->
     <RelativeLayout android:id="@+id/container" android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -14,8 +14,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:id="@+id/textViewTittle"
-                android:textSize="50sp"
-                android:layout_marginTop="47sp"
+                android:textSize="50dp"
+                android:layout_marginTop="50dp"
                 android:textColor="#ff687dff"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
@@ -25,8 +25,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/usuario"
                 android:id="@+id/textViewUser"
-                android:textSize="25sp"
-                android:layout_marginTop="90sp"
+                android:textSize="25dp"
+                android:layout_marginTop="60dp"
                 android:layout_below="@+id/textViewTittle"
                 android:layout_toLeftOf="@+id/textViewTittle"
                 android:layout_toStartOf="@+id/textViewTittle" />
@@ -36,8 +36,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/contraseña"
                 android:id="@+id/textViewPassword"
-                android:layout_marginTop="45sp"
-                android:textSize="25sp"
+                android:layout_marginTop="45dp"
+                android:textSize="25dp"
                 android:layout_below="@+id/textViewUser"
                 android:layout_alignLeft="@+id/textViewUser"
                 android:layout_alignStart="@+id/textViewUser"/>
@@ -47,12 +47,12 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:id="@+id/editTextUser"
-                android:width="150sp"
+                android:width="150dp"
                 android:layout_alignTop="@+id/textViewUser"
                 android:layout_toRightOf="@+id/textViewPassword"
                 android:layout_toEndOf="@+id/textViewPassword"
-                android:layout_marginLeft="24sp"
-                android:layout_marginStart="24sp" />
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                 android:layout_below="@+id/textViewPassword"
                 android:layout_alignLeft="@+id/textViewPassword"
                 android:layout_alignStart="@+id/textViewPassword"
-                android:layout_marginTop="54sp"
+                android:layout_marginTop="54dp"
                 android:checked="false" />
 
             <Button
@@ -83,21 +83,19 @@
                 android:layout_height="wrap_content"
                 android:text="@string/entrar"
                 android:id="@+id/buttonLogin"
+                android:layout_marginTop="39dp"
                 android:layout_below="@+id/checkBoxcredentials"
-                android:layout_alignLeft="@+id/checkBoxcredentials"
-                android:layout_alignStart="@+id/checkBoxcredentials"
-                android:layout_marginTop="29sp"
-                android:layout_alignRight="@+id/textViewPassword"
-                android:layout_alignEnd="@+id/textViewPassword" />
+                android:layout_toLeftOf="@+id/editTextUser"
+                android:layout_toStartOf="@+id/editTextUser" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/resgistrarse"
                 android:id="@+id/buttonRegister"
-                android:layout_alignBottom="@+id/buttonLogin"
-                android:layout_alignRight="@+id/editTextPassword"
-                android:layout_alignEnd="@+id/editTextPassword" />
+                android:layout_alignTop="@+id/buttonLogin"
+                android:layout_toRightOf="@+id/checkBoxcredentials"
+                android:layout_toEndOf="@+id/checkBoxcredentials" />
 
 
     </RelativeLayout>
@@ -107,7 +105,7 @@
          languages and on the right side for right-to-left languages.
          If you're not building against API 17 or higher, use
          android:layout_gravity="left" instead. -->
-    <!-- The drawer is given a fixed width in sp and extends the full height of
+    <!-- The drawer is given a fixed width in dp and extends the full height of
          the container. -->
     <fragment android:id="@+id/navigation_drawer"
         android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
