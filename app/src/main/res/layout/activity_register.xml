@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:text="@string/registro"
             android:id="@+id/textViewRegister"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="50dp"
             android:textSize="50dp"
             android:layout_centerHorizontal="true"
             android:textColor="#ff687dff" />

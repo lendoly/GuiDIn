@@ -58,6 +58,18 @@ public class MainActivity extends ActionBarActivity
                     }
                 }
         );
+
+        Button entrar = (Button)findViewById(R.id.buttonLogin);
+
+        entrar.setOnClickListener(
+                new View.OnClickListener(){
+                    public void onClick(View view){
+                        Intent i = new Intent(getActivity(),Principal.class);
+                        startActivity(i);
+                    }
+                }
+        );
+
     }
 
     public Activity getActivity(){

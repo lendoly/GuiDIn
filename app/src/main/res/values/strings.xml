@@ -18,5 +18,14 @@
     <string name="contraseña">Contraseña</string>
     <string name="nombre">Nombre</string>
     <string name="apellido">Apellido</string>
+    <string name="title_activity_principal">Principal</string>
+    <string name="menu">Menu</string>
+    <string name="wifis">Actividad Wifi</string>
+    <string name="posicion">Posición en el mapa</string>
+    <string name="aplicacion">Aplicación real</string>
+    <string name="pruebas">Pruebas acelerometros</string>
+    <string name="ruta">Indicar ruta destino</string>
+    <string name="medir">Medir intensiddes</string>
+    <string name="salir">Cerrar sesión</string>
 
 </resources>

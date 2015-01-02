@@ -1,15 +1,13 @@
 package com.example.jorge.guidin;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.ListActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,11 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
-public class Register extends ActionBarActivity
+public class Principal extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -37,31 +36,30 @@ public class Register extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_principal);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
         // Set up the drawer.
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
+       // mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
 
-        Button cancelar = (Button)findViewById(R.id.buttonCancel);
+        ListView unitListView = (ListView) findViewById(R.id.listMenu);
 
-        cancelar.setOnClickListener(
-                new View.OnClickListener(){
-                    public void onClick(View view){
-                        Intent i = new Intent(getActivity(),MainActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-                }
-        );
+        ArrayList<String> listItems=new ArrayList<String>();
+        //lista de elementos
+        listItems.add(getString(R.string.wifis));
+        listItems.add(getString(R.string.posicion));
+        listItems.add(getString(R.string.aplicacion));
+        listItems.add(getString(R.string.pruebas));
+        listItems.add(getString(R.string.ruta));
+        listItems.add(getString(R.string.medir));
+        listItems.add(getString(R.string.salir));
 
-    }
-
-    public Activity getActivity(){
-        return this;
+        // creamos adaptador
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listItems);
+        unitListView.setAdapter(adapter);
     }
 
     @Override
@@ -97,14 +95,14 @@ public class Register extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+/*        if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.register, menu);
+            getMenuInflater().inflate(R.menu.principal, menu);
             restoreActionBar();
             return true;
-        }
+        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -151,14 +149,14 @@ public class Register extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_register, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
             return rootView;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            ((Register) activity).onSectionAttached(
+            ((Principal) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
