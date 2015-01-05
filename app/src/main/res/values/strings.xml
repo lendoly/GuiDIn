@@ -27,5 +27,7 @@
     <string name="ruta">Indicar ruta destino</string>
     <string name="medir">Medir intensiddes</string>
     <string name="salir">Cerrar sesión</string>
+    <string name="title_activity_wifis">Wifis</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

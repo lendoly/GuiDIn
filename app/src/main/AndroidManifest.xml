@@ -30,6 +30,10 @@
             android:name=".Principal"
             android:label="@string/title_activity_principal" >
         </activity>
+        <activity
+            android:name=".Wifis"
+            android:label="@string/title_activity_wifis" >
+        </activity>
     </application>
 
 </manifest>

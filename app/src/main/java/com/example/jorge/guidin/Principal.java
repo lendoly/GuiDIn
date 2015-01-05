@@ -2,163 +2,184 @@ package com.example.jorge.guidin;
 
 import android.app.Activity;
 import android.app.ListActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class Principal extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class Principal extends ListActivity {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private Resources mResources;
+    public static Activity activeActivity = null;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
+    public final static int MENU_QUIT = 0;
+
+    public class IconAndText extends LinearLayout {
+
+        private boolean isSelectable;
+        private ImageView mIcon;
+        private TextView mText;
+
+        public IconAndText(Context context, Drawable icon, String text, boolean isSelectable) {
+            super(context);
+            this.setOrientation(HORIZONTAL);
+            this.isSelectable = isSelectable;
+            mIcon = new ImageView(context);
+            mIcon.setImageDrawable(icon);
+
+            mIcon.setPadding(0, 2, 5, 0);
+
+
+            addView(mIcon,  new LinearLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+            mText = new TextView(context);
+            mText.setText(text);
+            mText.setEms(20);
+            //  mText.setBackgroundColor(android.R.color.white);
+            addView(mText, new LinearLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        }
+
+        public boolean isSelectable(){
+            return isSelectable;
+        }
+
+        public ImageView getIcon(){
+            return mIcon;
+        }
+
+        public String getText(){
+            return (String) mText.getText();
+        }
+
+        public void setText(String text){
+            mText.setText(text);
+        }
+
+        public void setIcon(Drawable bullet){
+            mIcon.setImageDrawable(bullet);
+        }
+    }
+
+    public class IconifiedTextListAdapter extends BaseAdapter {
+
+
+        private Context mContext;
+
+        private List<IconAndText> mItems = new ArrayList<IconAndText>();
+
+        public IconifiedTextListAdapter(Context context) {
+            mContext = context;
+        }
+
+        public void addItem(IconAndText it) { mItems.add(it); }
+
+        public void setListItems(List<IconAndText> lit) { mItems = lit; }
+
+        public int getCount() { return mItems.size(); }
+
+        public Object getItem(int position) { return mItems.get(position); }
+
+        public boolean areAllItemsSelectable() { return false; }
+
+        public boolean isSelectable(int position) {
+            try{
+                return mItems.get(position).isSelectable();
+            }catch (IndexOutOfBoundsException aioobe){
+                return false;
+            }
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        /** @param convertView The old view to overwrite, if one is passed
+         * @returns a IconifiedTextView that holds wraps around an IconifiedText */
+        public View getView(int position, View convertView, ViewGroup parent) {
+            IconAndText btv;
+            if (convertView == null) {
+                btv = new IconAndText(mContext, mItems.get(position).getIcon().getDrawable(), mItems.get(position).getText(), mItems.get(position).isSelectable());
+            } else {
+                btv = (IconAndText) convertView;
+                btv.setText(mItems.get(position).getText());
+                btv.setIcon(mItems.get(position).getIcon().getDrawable());
+            }
+            return btv;
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_principal);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        mResources = getResources();
 
-        // Set up the drawer.
-       // mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout)findViewById(R.id.drawer_layout));
+        IconifiedTextListAdapter adapter = new IconifiedTextListAdapter(this);
+        IconAndText aux = new IconAndText(this,null,getString(R.string.wifis),true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this,null,getString(R.string.posicion),true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this,null,getString(R.string.aplicacion),true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this,null,getString(R.string.pruebas),true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this,null,getString(R.string.ruta),true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this,null,getString(R.string.medir),true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this,null,getString(R.string.salir),true);
+        adapter.addItem(aux);
 
-        ListView unitListView = (ListView) findViewById(R.id.listMenu);
-
-        ArrayList<String> listItems=new ArrayList<String>();
-        //lista de elementos
-        listItems.add(getString(R.string.wifis));
-        listItems.add(getString(R.string.posicion));
-        listItems.add(getString(R.string.aplicacion));
-        listItems.add(getString(R.string.pruebas));
-        listItems.add(getString(R.string.ruta));
-        listItems.add(getString(R.string.medir));
-        listItems.add(getString(R.string.salir));
-
-        // creamos adaptador
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listItems);
-        unitListView.setAdapter(adapter);
+        this.setListAdapter(adapter);
     }
-
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-/*        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.principal, menu);
-            restoreActionBar();
-            return true;
-        }*/
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    protected void onListItemClick (ListView l, View v, int position, long id){
+        super.onListItemClick(l,v,position,id);
+        if(position==0){
+            Intent intent = new Intent(this, Wifis.class);
+            startActivity(intent);
+        }else if(position == 1){
+               /* Intent intent = new Intent(this, Position.class);
+                startActivity(intent);*/
+        }else if(position == 2){
+                /*Intent intent = new Intent(this, CameraActivity.class);
+                startActivity(intent);*/
+        }else if(position == 3){
+                /*Intent intent = new Intent(this, TestAccelerometer.class);
+                startActivity(intent);*/
+        }else if (position == 4){
+              /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
+                startActivity(intent);*/
+        }else if (position == 5){
+              /*  Intent intent = new Intent(this, Medir.class);
+                startActivity(intent);*/
+        }else if (position == 6){
+               /* logout(username, password);
+                finish();*/
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_principal, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((Principal) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
 
 }
