@@ -1,6 +1,8 @@
 package com.example.jorge.guidin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -14,6 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+
+import org.apache.http.client.ClientProtocolException;
+
+import java.io.IOException;
+
+import dialogs.DialogController;
+import http.HttpServices;
 
 
 
@@ -29,6 +40,9 @@ public class MainActivity extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    private static String username;
+    private static String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +74,58 @@ public class MainActivity extends ActionBarActivity
         entrar.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View view){
-                        Intent i = new Intent(getActivity(),Principal.class);
-                        startActivity(i);
+                        EditText user = (EditText)findViewById(R.id.editTextUser);
+                        String s = user.getText().toString();
+                        if(s.equals("")){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Debes rellenar el campo \"Usuario\"");
+
+                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                            builder.setCancelable(false);
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }else{
+                            username = s;
+                            password = ((EditText)findViewById(R.id.editTextPassword)).getText().toString();
+                            login(username,password);
+                        }
                     }
                 }
         );
 
+    }
+
+    public void login(String user, String password) {
+        HttpServices service = new HttpServices();
+        try {
+            String result = service.login(user, password);
+            if(result.equals("")){
+                /*CheckBox check = (CheckBox)findViewById(R.id.chkRememberPassword);
+                if(check.isChecked()){
+                    guardarDatosUsuario(user,password);
+                }else{
+                    borrarDatosUsuario();
+                }*/
+                Intent i = new Intent(this,Principal.class);
+                startActivity(i);
+            }else if(result.equals("Servidor inaccesible")){
+                DialogController.createInformDialog(this, "Error en el servidor");
+            }else{
+                DialogController.createInformDialog(this, "Error en el login");
+            }
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepci�n: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepci�n: " + e.getMessage());
+        }
     }
 
     public Activity getActivity(){
