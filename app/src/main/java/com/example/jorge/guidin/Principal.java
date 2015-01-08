@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,8 +160,7 @@ public class Principal extends ListActivity {
             Intent intent = new Intent(this, Wifis.class);
             startActivity(intent);
         }else if(position == 1){
-               /* Intent intent = new Intent(this, Position.class);
-                startActivity(intent);*/
+            Toast.makeText(getApplicationContext(),"hola",Toast.LENGTH_SHORT).show();
         }else if(position == 2){
                 /*Intent intent = new Intent(this, CameraActivity.class);
                 startActivity(intent);*/
