@@ -72,7 +72,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/registerName"
             android:layout_centerHorizontal="true"
             android:width="150dp"
             android:layout_above="@+id/textViewLastName"
@@ -82,13 +82,13 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText2"
+            android:id="@+id/registerSurname"
             android:layout_alignBottom="@+id/textViewLastName"
             android:layout_centerHorizontal="true"
-            android:layout_alignRight="@+id/editText"
-            android:layout_alignEnd="@+id/editText"
-            android:layout_alignLeft="@+id/editText"
-            android:layout_alignStart="@+id/editText" />
+            android:layout_alignRight="@+id/registerName"
+            android:layout_alignEnd="@+id/registerName"
+            android:layout_alignLeft="@+id/registerName"
+            android:layout_alignStart="@+id/registerName" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -96,25 +96,25 @@
             android:layout_centerHorizontal="true"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/editText3"
+            android:id="@+id/registerUser"
             android:layout_alignBottom="@+id/textViewUser"
-            android:layout_alignLeft="@+id/editText"
-            android:layout_alignStart="@+id/editText"
-            android:layout_alignRight="@+id/editText2"
-            android:layout_alignEnd="@+id/editText2" />
+            android:layout_alignLeft="@+id/registerName"
+            android:layout_alignStart="@+id/registerName"
+            android:layout_alignRight="@+id/registerSurname"
+            android:layout_alignEnd="@+id/registerSurname" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/editText4"
+            android:id="@+id/registerPassword"
             android:layout_alignBottom="@+id/textViewPassword"
             android:layout_centerHorizontal="true"
-            android:layout_alignLeft="@+id/editText3"
-            android:layout_alignStart="@+id/editText3"
-            android:layout_alignRight="@+id/editText"
-            android:layout_alignEnd="@+id/editText" />
+            android:layout_alignLeft="@+id/registerUser"
+            android:layout_alignStart="@+id/registerUser"
+            android:layout_alignRight="@+id/registerName"
+            android:layout_alignEnd="@+id/registerName" />
 
         <Button
             android:layout_width="wrap_content"

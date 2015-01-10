@@ -56,8 +56,8 @@ public class HttpServices extends Activity {
      * @throws IOException
      */
     public String login(String user, String password) throws ClientProtocolException, IOException{
-    	if(ping()){
-            Toast.makeText(context, urlServer + "consultar.php?username=" + user + "&password=" + password, Toast.LENGTH_SHORT).show();
+    	//if(ping()){
+          //  Toast.makeText(context, urlServer + "consultar.php?username=" + user + "&password=" + password, Toast.LENGTH_SHORT).show();
     		HttpGet httpget = new HttpGet(urlServer + "consultar.php?username=" + user + "&password=" + password);
     		HttpGet[] a = {httpget};
 
@@ -84,9 +84,9 @@ public class HttpServices extends Activity {
 		    	return "Usuario no registrado";
 		    }
 
-    	}else{
-    		return "Servidor inaccesible";
-    	}
+    	//}else{
+    		//return "Servidor inaccesible";
+    	//}
 
     }
 
@@ -137,7 +137,7 @@ public class HttpServices extends Activity {
      * @throws IOException
      */
     public String register(String user, String password, String name, String surname) throws ClientProtocolException, IOException{
-    	if(ping()){
+    	//if(ping()){
 
     		HttpGet httpget = new HttpGet(urlServer + "registrar.php?username=" + user + "&password=" + password + "&nombre=" + name + "&apellidos="+ surname);
     		HttpGet[] a = {httpget};
@@ -160,9 +160,9 @@ public class HttpServices extends Activity {
 	        String response = c.getResponse();
 		    return response;
 
-    	}else{
+    	/*}else{
     		return "Servidor inaccesible";
-    	}
+    	}*/
     }
 
     /**
@@ -172,7 +172,6 @@ public class HttpServices extends Activity {
      * @param z
      * @param mac
      * @param strength
-     * @param sobreescribir
      * @return "" si tiene �xito, la informaci�n del error en caso de fallo.
      * @throws ClientProtocolException
      * @throws IOException

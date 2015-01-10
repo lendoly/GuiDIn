@@ -8,17 +8,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
+import org.apache.http.client.ClientProtocolException;
 import android.os.Bundle;
 import android.view.Gravity;
+import dialogs.DialogController;
+import http.HttpServices;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import java.io.IOException;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.EditText;
 
 
 public class Register extends ActionBarActivity
@@ -51,14 +56,73 @@ public class Register extends ActionBarActivity
         cancelar.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View view){
-                        Intent i = new Intent(getActivity(),MainActivity.class);
-                        startActivity(i);
                         finish();
                     }
                 }
         );
 
+        Button aceptar = (Button)findViewById(R.id.buttonAccept);
+        aceptar.setOnClickListener(
+                new View.OnClickListener(){
+                    public void onClick(View view){
+                        String s = comprobarDatos();
+                        if(s.equals("")){
+                            register();
+                            finish();
+                        }else{
+                            DialogController.createInformDialog(getActivity(), s);
+                        }
+                    }
+                }
+        );
+
     }
+
+
+    public String comprobarDatos() {
+        EditText text = (EditText)findViewById(R.id.registerName);
+        String s = text.getText().toString();
+        if(s.equals("")){
+            return "Debes completar el campo \"Nombre\"";
+        }
+        text = (EditText)findViewById(R.id.registerSurname);
+        if(s.equals("")){
+            return "Debes completar el campo \"Apellidos\"";
+        }
+        text = (EditText)findViewById(R.id.registerUser);
+        if(s.equals("")){
+            return "Debes completar el campo \"Usuario\"";
+        }
+        text = (EditText)findViewById(R.id.registerPassword);
+        if(s.equals("")){
+            return "Debes completar el campo \"Password\"";
+        }
+        return "";
+    }
+
+
+    private void register(){
+        HttpServices service = new HttpServices();
+        try {
+            String s = service.register(((EditText)findViewById(R.id.registerUser)).getText().toString(),
+                    ((EditText)findViewById(R.id.registerPassword)).getText().toString(),
+                    ((EditText)findViewById(R.id.registerName)).getText().toString(),
+                    ((EditText)findViewById(R.id.registerSurname)).getText().toString());
+            DialogController d = new DialogController(){
+                public void clickAccept() {
+                    finish();
+                }
+            };
+            d.showInformDialog(this, s);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        }
+    }
+
 
     public Activity getActivity(){
         return this;
