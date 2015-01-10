@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.ListView;
+import android.content.Intent;
 
 import java.util.List;
 
@@ -35,6 +37,13 @@ public class Wifis extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wifis);
         cargarDatos();
+    }
+
+
+    protected void onListItemClick (ListView l, View v, int position, long id){
+        elementoSelec = position;
+        Intent i = new Intent(this,ScanResultActivity.class);
+        startActivity(i);
     }
 
 

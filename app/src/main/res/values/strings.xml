@@ -28,6 +28,8 @@
     <string name="medir">Medir intensiddes</string>
     <string name="salir">Cerrar sesión</string>
     <string name="title_activity_wifis">Wifis</string>
+    <string name="SSID">SSID:</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_scan_result">ScanResultActivity</string>
 
 </resources>
