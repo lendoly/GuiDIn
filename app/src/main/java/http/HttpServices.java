@@ -1,18 +1,17 @@
 package http;
 
 import android.app.Activity;
-import android.widget.Toast;
+
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.FactoryConfigurationError;
-
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class HttpServices extends Activity {
 
@@ -56,7 +55,7 @@ public class HttpServices extends Activity {
      * @throws IOException
      */
     public String login(String user, String password) throws ClientProtocolException, IOException{
-    	//if(ping()){
+    	if(ping()){
           //  Toast.makeText(context, urlServer + "consultar.php?username=" + user + "&password=" + password, Toast.LENGTH_SHORT).show();
     		HttpGet httpget = new HttpGet(urlServer + "consultar.php?username=" + user + "&password=" + password);
     		HttpGet[] a = {httpget};
@@ -84,9 +83,9 @@ public class HttpServices extends Activity {
 		    	return "Usuario no registrado";
 		    }
 
-    	//}else{
-    		//return "Servidor inaccesible";
-    	//}
+    	}else{
+    		return "Servidor inaccesible";
+    	}
 
     }
 
