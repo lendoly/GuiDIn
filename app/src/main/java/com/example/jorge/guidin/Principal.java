@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
+
 import android.os.Bundle;
 
-import android.view.LayoutInflater;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -133,7 +131,10 @@ public class Principal extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         mResources = getResources();
+
 
         IconifiedTextListAdapter adapter = new IconifiedTextListAdapter(this);
         IconAndText aux = new IconAndText(this,null,getString(R.string.wifis),true);

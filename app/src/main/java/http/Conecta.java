@@ -16,7 +16,8 @@ class Conecta extends AsyncTask<HttpGet, Integer, Long> {
 	// M�todo para ejecutar la conexi�n con la base de datos en segundo plano.
 	
 	protected Long doInBackground(HttpGet... httpgets) {
-	
+
+        response= new String();
 		HttpGet httpget = httpgets[0];
 		
 		DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -35,7 +36,7 @@ class Conecta extends AsyncTask<HttpGet, Integer, Long> {
 	    
 	    httpclient.getConnectionManager().shutdown();     
 
-        return (long) 0;
+        return null;
     }
 	
 	protected void onPreExecute () {

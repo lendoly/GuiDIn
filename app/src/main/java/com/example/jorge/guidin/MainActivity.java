@@ -90,9 +90,11 @@ public class MainActivity extends ActionBarActivity
                             AlertDialog alert = builder.create();
                             alert.show();
                         }else{
-                            username = s;
+                            Intent i = new Intent(getActivity(),Principal.class);
+                            startActivity(i);
+                            /*username = s;
                             password = ((EditText)findViewById(R.id.editTextPassword)).getText().toString();
-                            login(username,password);
+                            login(username,password);*/
                         }
                     }
                 }

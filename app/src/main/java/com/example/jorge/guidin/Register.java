@@ -67,8 +67,10 @@ public class Register extends ActionBarActivity
                     public void onClick(View view){
                         String s = comprobarDatos();
                         if(s.equals("")){
+
                             register();
                             finish();
+
                         }else{
                             DialogController.createInformDialog(getActivity(), s);
                         }
@@ -108,12 +110,12 @@ public class Register extends ActionBarActivity
                     ((EditText)findViewById(R.id.registerPassword)).getText().toString(),
                     ((EditText)findViewById(R.id.registerName)).getText().toString(),
                     ((EditText)findViewById(R.id.registerSurname)).getText().toString());
-            DialogController d = new DialogController(){
+           /* DialogController d = new DialogController(){
                 public void clickAccept() {
                     finish();
                 }
             };
-            d.showInformDialog(this, s);
+            d.showInformDialog(this, s);*/
         } catch (ClientProtocolException e) {
             e.printStackTrace();
             DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
