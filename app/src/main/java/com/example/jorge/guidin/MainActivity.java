@@ -4,19 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.apache.http.client.ClientProtocolException;
@@ -90,11 +89,11 @@ public class MainActivity extends ActionBarActivity
                             AlertDialog alert = builder.create();
                             alert.show();
                         }else{
-                            Intent i = new Intent(getActivity(),Principal.class);
-                            startActivity(i);
-                            /*username = s;
+                            /*Intent i = new Intent(getActivity(),Principal.class);
+                            startActivity(i);*/
+                            username = s;
                             password = ((EditText)findViewById(R.id.editTextPassword)).getText().toString();
-                            login(username,password);*/
+                            login(username,password);
                         }
                     }
                 }
