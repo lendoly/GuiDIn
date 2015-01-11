@@ -29,6 +29,10 @@
     <string name="salir">Cerrar sesión</string>
     <string name="title_activity_wifis">Wifis</string>
     <string name="SSID">SSID:</string>
+    <string name="BSSID">BSSID:</string>
+    <string name="frecuencia">Frecuencia:</string>
+    <string name="Potencia">Potencia:</string>
+    <string name="infowifi">Información de la red wifi</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_scan_result">ScanResultActivity</string>
 

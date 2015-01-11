@@ -32,19 +32,19 @@ public class ScanResultActivity extends ActionBarActivity {
 
         ScanResult resultado =  Wifis.resultados.get(Wifis.elementoSelec);
 
-        TextView ssid = (TextView)findViewById(R.id.ssid);
+        TextView ssid = (TextView)findViewById(R.id.TextViewSSID2);
         ssid.setText(resultado.SSID);
 
-        TextView bssid = (TextView)findViewById(R.id.bssid);
+        TextView bssid = (TextView)findViewById(R.id.TextViewBSSID2);
         bssid.setText(resultado.BSSID);
 
-        TextView frequency = (TextView)findViewById(R.id.frequency);
+        TextView frequency = (TextView)findViewById(R.id.TextViewFrecuencia2);
         frequency.setText("" + resultado.frequency);
 
-        TextView level = (TextView)findViewById(R.id.level);
+        TextView level = (TextView)findViewById(R.id.TextViewPotencia2);
         level.setText("" + resultado.level);
 
-        Button b = (Button)findViewById(R.id.ScanResVolver);
+        Button b = (Button)findViewById(R.id.buttonBack);
         b.setOnClickListener(new OnClickListener(){
 
             public void onClick(View arg0) {

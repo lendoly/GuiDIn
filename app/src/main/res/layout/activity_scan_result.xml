@@ -1,94 +1,137 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="com.example.jorge.guidin.ScanResultActivity" tools:ignore="MergeRootFrame" />
+    tools:context="com.example.jorge.guidin.ScanResultActivity" tools:ignore="MergeRootFrame" >
 
-    <TableLayout
-    android:id="@+id/TableLayout01"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <TableRow>
-        <TextView
-            android:text="SSID:"
-            android:id="@+id/TextView01"
-            android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal|top"
+        android:id="@+id/drawer_layout">
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:textSize="18sp">
-        </TextView>
-        <TextView
-            android:text="TextView02"
-            android:id="@+id/ssid"
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:text="@string/infowifi"
+                android:id="@+id/TextViewinfowifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:height="70dp"
+                android:textSize="18sp"
+                android:textColor="#ff413dff">
+            </TextView>
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp">
-        </TextView>
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="BSSID:"
-            android:id="@+id/TextView02"
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:text="@string/SSID"
+                android:id="@+id/TextViewSSID1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="18sp">
+            </TextView>
+            <TextView
+                android:id="@+id/TextViewSSID2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:textSize="18sp">
-        </TextView>
-        <TextView
-            android:text="TextView04"
-            android:id="@+id/bssid"
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:text="@string/BSSID"
+                android:id="@+id/TextViewBSSID1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="18sp">
+            </TextView>
+            <TextView
+                android:id="@+id/TextViewBSSID2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp">
-        </TextView>
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="Frecuencia:"
-            android:id="@+id/TextView03"
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:text="@string/frecuencia"
+                android:id="@+id/TextViewFrecuencia1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="18sp">
+            </TextView>
+            <TextView
+                android:id="@+id/TextViewFrecuencia2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:textSize="18sp">
-        </TextView>
-        <TextView
-            android:text="N/A"
-            android:id="@+id/frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"></TextView>
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:text="Potencia:"
-            android:id="@+id/TextView04"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:textSize="18dp">
-        </TextView>
-        <TextView
-            android:text="N/A"
-            android:id="@+id/level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"></TextView>
-    </TableRow>
-    <TableRow>
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:text="@string/Potencia"
+                android:id="@+id/TextViewPotencia1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="18sp">
+            </TextView>
+            <TextView
+                android:id="@+id/TextViewPotencia2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="18sp">
+            </TextView>
+        </TableRow>
+
         <Button
-            android:text="Volver"
-            android:id="@+id/ScanResVolver"
-            android:layout_marginTop="20dip"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </Button>
-    </TableRow>
-    </TableLayout>
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:id="@+id/buttonBack"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="100dp"
+            android:width="150dp"/>
+
+    </LinearLayout>
+</FrameLayout>
+
