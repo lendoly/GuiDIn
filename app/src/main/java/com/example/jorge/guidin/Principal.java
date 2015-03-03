@@ -52,6 +52,9 @@ public class Principal extends ListActivity {
             mText = new TextView(context);
             mText.setText(text);
             mText.setEms(20);
+            mText.setMinimumHeight(100);
+            mText.setTextSize(20);
+
             //  mText.setBackgroundColor(android.R.color.white);
             addView(mText, new LinearLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -140,6 +143,7 @@ public class Principal extends ListActivity {
         IconAndText aux = new IconAndText(this,null,getString(R.string.wifis),true);
         adapter.addItem(aux);
         aux = new IconAndText(this,null,getString(R.string.posicion),true);
+        aux.setMinimumHeight(500);
         adapter.addItem(aux);
         aux = new IconAndText(this,null,getString(R.string.aplicacion),true);
         adapter.addItem(aux);
@@ -151,7 +155,6 @@ public class Principal extends ListActivity {
         adapter.addItem(aux);
         aux = new IconAndText(this,null,getString(R.string.salir),true);
         adapter.addItem(aux);
-
         this.setListAdapter(adapter);
     }
     @Override

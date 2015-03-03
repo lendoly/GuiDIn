@@ -62,8 +62,7 @@ public class Wifis extends ListActivity {
             for(int i = 0; i < resultados.size(); i++){
                 valores[i] = resultados.get(i).SSID + " (" + resultados.get(i).BSSID + ")";
             }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, valores);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, valores);
             this.setListAdapter(adapter);
 
         } catch (WPSException e) {
