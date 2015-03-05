@@ -35,18 +35,5 @@
     <string name="infowifi">Información de la red wifi</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_scan_result">ScanResultActivity</string>
-    <string name="title_activity_acelerometro">Acelerometro</string>
-    <string name="acc_en_x">Acc. en X:</string>
-    <string name="acc_en_y">Acc. en X:</string>
-    <string name="acc_en_z">Acc. en X:</string>G. sobre eje X:
-    <string name="g_sobre_eje_x">G. sobre eje X:</string>
-    <string name="g_sobre_eje_y">G. sobre eje Y:</string>
-    <string name="g_sobre_eje_z">G. sobre eje Z:</string>
-    <string name="giro_valido">¿Giro válido?::</string>
-    <string name="acc_norm_eje_x">Acc. normalizada (eje X):</string>
-    <string name="acc_norm_eje_y">Acc. normalizada (eje Y):</string>
-    <string name="acc_norm_eje_z">Acc. normalizada (eje Z):</string>
-    <string name="acc_x_mapa">AccX mapa(si pos. ok):</string>
-    <string name="acc_y_mapa">AccY mapa(si pos. ok):</string>
 
 </resources>
