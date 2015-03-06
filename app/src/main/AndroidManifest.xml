@@ -24,41 +24,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Register"
-            android:label="@string/title_activity_register"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".Principal"
-            android:label="@string/title_activity_principal" >
+            android:name="com.example.jorge.guidin.Menu"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_menu" >
         </activity>
         <activity
             android:name=".Wifis"
-            android:label="@string/title_activity_wifis" >
+            android:label="@string/title_activity_wifis"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ScanResultActivity"
-            android:label="@string/title_activity_scan_result" >
+            android:label="@string/title_activity_scan_result"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Acelerometro"
             android:label="@string/title_activity_acelerometro"
-            android:parentActivityName=".Principal" >
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.jorge.guidin.Principal" />
+                android:value="com.example.jorge.guidin.Menu" />
         </activity>
         <activity
             android:name=".Registro"
             android:label="@string/title_activity_registro"
-            android:parentActivityName=".Principal" >
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.jorge.guidin.Principal" />
+                android:value="com.example.jorge.guidin.Menu" />
         </activity>
     </application>
 

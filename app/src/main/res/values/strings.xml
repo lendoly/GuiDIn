@@ -49,5 +49,6 @@
     <string name="acc_x_mapa">AccX mapa(si pos. ok):</string>
     <string name="acc_y_mapa">AccY mapa(si pos. ok):</string>
     <string name="title_activity_registro">Registro</string>
+    <string name="title_activity_menu">Menu</string>
 
 </resources>

@@ -112,7 +112,7 @@ public class MainActivity extends ActionBarActivity
                 }else{
                     borrarDatosUsuario();
                 }*/
-                Intent i = new Intent(this,Principal.class);
+                Intent i = new Intent(this, com.example.jorge.guidin.Menu.class);
                 startActivity(i);
             }else if(result.equals("Servidor inaccesible")){
                 DialogController.createInformDialog(this, "Error en el servidor");
