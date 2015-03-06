@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity
         registrar.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View view){
-                        Intent i = new Intent(getActivity(),Register.class);
+                        Intent i = new Intent(getActivity(),Registro.class);
                         startActivity(i);
                     }
                 }

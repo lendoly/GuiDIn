@@ -52,6 +52,8 @@ public class Principal extends ListActivity {
             mText = new TextView(context);
             mText.setText(text);
             mText.setEms(20);
+            mText.setMinimumHeight(100);
+            mText.setTextSize(20);
             //  mText.setBackgroundColor(android.R.color.white);
             addView(mText, new LinearLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -166,8 +168,8 @@ public class Principal extends ListActivity {
                 /*Intent intent = new Intent(this, CameraActivity.class);
                 startActivity(intent);*/
         }else if(position == 3){
-                /*Intent intent = new Intent(this, TestAccelerometer.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(this, Acelerometro.class);
+                startActivity(intent);
         }else if (position == 4){
               /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
                 startActivity(intent);*/
