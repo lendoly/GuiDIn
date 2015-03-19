@@ -1,12 +1,13 @@
 package com.example.jorge.guidin;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import org.apache.http.client.ClientProtocolException;
@@ -18,6 +19,8 @@ import http.HttpServices;
 
 
 public class Registro extends ActionBarActivity {
+
+    private boolean[] superables = {false,false,false,false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +80,30 @@ public class Registro extends ActionBarActivity {
 
     private void register(){
         HttpServices service = new HttpServices();
+        String list_supererables="";
+        if (superables[0])
+            list_supererables += "escarelas";
+        if (superables[1])
+            if (list_supererables=="")
+                list_supererables += "ascensor";
+            else
+                list_supererables+= ",ascensor";
+        if (superables[2])
+            if (list_supererables=="")
+                list_supererables += "puerta";
+            else
+                list_supererables += ",puerta";
+        if (superables[3])
+            if (list_supererables=="")
+                list_supererables += "rampa";
+            else
+                list_supererables += ",rampa";
         try {
             String s = service.register(((EditText)findViewById(R.id.registerUser)).getText().toString(),
                     ((EditText)findViewById(R.id.registerPassword)).getText().toString(),
                     ((EditText)findViewById(R.id.registerName)).getText().toString(),
-                    ((EditText)findViewById(R.id.registerSurname)).getText().toString());
+                    ((EditText)findViewById(R.id.registerSurname)).getText().toString(),
+                    list_supererables);
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -89,6 +111,40 @@ public class Registro extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
             DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        }
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.escaleras:
+                if (checked)
+                    superables[0] = true;
+                else
+                    superables[0] = false;
+                break;
+            case R.id.ascensor:
+                if (checked)
+                    superables[1] = true;
+                else
+                    superables[1] = false;
+                break;
+            case R.id.puerta:
+                if (checked)
+                    superables[2] = true;
+                else
+                    superables[2] = false;
+                break;
+            case R.id.rampa:
+                if (checked)
+                    superables[3] = true;
+                else
+                    superables[3] = false;
+                break;
+            // TODO: Veggie sandwich
         }
     }
 

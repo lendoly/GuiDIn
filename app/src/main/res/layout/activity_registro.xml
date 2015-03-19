@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre"
+        android:text="@string/nombre"
         android:id="@+id/textViewName"
         android:layout_marginTop="40dp"
         android:textSize="25dp"
@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apellido"
+        android:text="@string/apellido"
         android:id="@+id/textViewLastName"
         android:textSize="25dp"
         android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Usuario"
+        android:text="@string/usuario"
         android:id="@+id/textViewUser"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
@@ -47,7 +47,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Contraseña"
+        android:text="@string/contraseña"
         android:id="@+id/textViewPassword"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
@@ -106,24 +106,65 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aceptar"
+        android:text="@string/boton_aceptar"
         android:id="@+id/buttonAccept"
         android:layout_below="@+id/textViewPassword"
         android:layout_alignRight="@+id/textViewPassword"
         android:layout_alignEnd="@+id/textViewPassword"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="150dp"
         android:layout_alignLeft="@+id/textViewPassword"
         android:layout_alignStart="@+id/textViewPassword" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancelar"
+        android:text="@string/boton_cancelar"
         android:id="@+id/buttonCancel"
         android:layout_alignTop="@+id/buttonAccept"
         android:layout_toRightOf="@+id/buttonAccept"
         android:layout_marginLeft="38dp"
         android:width="130dp"
          />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/escaleras"
+        android:id="@+id/escaleras"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/registerPassword"
+        android:layout_alignLeft="@+id/textViewPassword"
+        android:layout_alignStart="@+id/textViewPassword"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ascensor"
+        android:id="@+id/ascensor"
+        android:layout_below="@+id/escaleras"
+        android:layout_alignLeft="@+id/escaleras"
+        android:layout_alignStart="@+id/escaleras"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/puerta"
+        android:id="@+id/puerta"
+        android:layout_below="@+id/ascensor"
+        android:layout_alignLeft="@+id/ascensor"
+        android:layout_alignStart="@+id/ascensor"
+        android:onClick="onCheckboxClicked"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rampa"
+        android:id="@+id/rampa"
+        android:layout_below="@+id/puerta"
+        android:layout_alignLeft="@+id/buttonAccept"
+        android:layout_alignStart="@+id/buttonAccept"
+        android:onClick="onCheckboxClicked"/>
 
 </RelativeLayout>
