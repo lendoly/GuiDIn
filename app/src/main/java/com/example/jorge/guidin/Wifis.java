@@ -1,5 +1,11 @@
 package com.example.jorge.guidin;
 
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -8,9 +14,6 @@ import android.content.DialogInterface;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.SystemClock;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.view.View;
 import android.widget.ListView;
@@ -23,7 +26,7 @@ import wps.WPSException;
 import dialogs.DialogController;
 
 
-public class Wifis extends ListActivity {
+public class Wifis extends ListActivity  {
 
     private WPS wps;
     public static List<ScanResult> resultados;
@@ -39,10 +42,9 @@ public class Wifis extends ListActivity {
         cargarDatos();
     }
 
-
     protected void onListItemClick (ListView l, View v, int position, long id){
         elementoSelec = position;
-        Intent i = new Intent(this,ScanResultActivity.class);
+        Intent i = new Intent(this,DetalleWifi.class);
         startActivity(i);
     }
 
@@ -113,6 +115,8 @@ public class Wifis extends ListActivity {
         return this;
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -126,11 +130,6 @@ public class Wifis extends ListActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

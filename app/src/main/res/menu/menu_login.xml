@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.example.jorge.guidin.Login">
+    <item android:id="@+id/Salir"
+        android:title="@string/Salir"
+        android:orderInCategory="1"
+        />
+</menu>

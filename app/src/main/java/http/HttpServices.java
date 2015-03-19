@@ -115,7 +115,7 @@ public class HttpServices extends Activity {
 		    if(response.equals("SI")){
 		    	return "";
 		    }else{
-		    	return "No se ha podido salir correctamente de la aplicaci�n";
+		    	return "No se ha podido salir correctamente de la aplicación";
 		    }
 
     	}else{
@@ -261,48 +261,5 @@ public class HttpServices extends Activity {
 			throw new HttpServicesException(e.getMessage());
 		}
     }
-  /*
-  public JSONArray getFires() throws HttpServicesException{
-    	try{
-    		if (ping()){
-    			String url = urlServer + "getAllFires.php";
-    			DefaultHttpClient httpClient = new DefaultHttpClient();
-    			HttpGet http = new HttpGet(url);
-    			BasicResponseHandler handler = new BasicResponseHandler();
-    			String response = httpClient.execute(http,handler);
-    			httpClient.getConnectionManager().shutdown();
-    			JSONArray fuegos = new JSONArray(response);
-    			return fuegos;
-    		}
-    		else{
-    			throw new HttpServicesException("Host de destino inaccesible.");
-    		}
 
-    	}
-    	catch(UnknownHostException e){
-    		e.printStackTrace();
-    		throw new HttpServicesException(e.getMessage());
-    	}
-    	catch(SecurityException e){
-    		e.printStackTrace();
-    		throw new HttpServicesException(e.getMessage());
-    	}
-    	catch (FactoryConfigurationError e) {
- 			e.printStackTrace();
- 			throw new HttpServicesException(e.getMessage());
- 		}
-    	catch (ClientProtocolException e) {
-			e.printStackTrace();
-			throw new HttpServicesException(e.getMessage());
-		}
-    	catch (IOException e) {
-			e.printStackTrace();
-			throw new HttpServicesException(e.getMessage());
-		}
-    	catch (JSONException e) {
-			e.printStackTrace();
-			throw new HttpServicesException(e.getMessage());
-		}
-    }
-*/
 }

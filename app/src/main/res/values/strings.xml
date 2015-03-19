@@ -25,7 +25,7 @@
     <string name="aplicacion">Aplicación real</string>
     <string name="pruebas">Ver acelerometros</string>
     <string name="ruta">Indicar ruta destino</string>
-    <string name="medir">Medir intensiddes</string>
+    <string name="medir">Medir intensidades</string>
     <string name="salir">Cerrar sesión</string>
     <string name="title_activity_wifis">Wifis</string>
     <string name="SSID">SSID:</string>
@@ -34,12 +34,12 @@
     <string name="Potencia">Potencia:</string>
     <string name="infowifi">Información de la red wifi</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_scan_result">ScanResultActivity</string>
+    <string name="title_activity_scan_result">Información de la red wifi</string>
     <string name="title_activity_acelerometro">Acelerometro</string>
     <string name="acc_en_x">Acc. en X:</string>
     <string name="acc_en_y">Acc. en Y:</string>
-    <string name="acc_en_z">Acc. en Z:</string>G. sobre eje X:
-    <string name="g_sobre_eje_x">G. sobre eje X:</string>
+    <string name="acc_en_z">Acc. en Z:</string>
+G. sobre eje X:                        <string name="g_sobre_eje_x">G. sobre eje X:</string>
     <string name="g_sobre_eje_y">G. sobre eje Y:</string>
     <string name="g_sobre_eje_z">G. sobre eje Z:</string>
     <string name="giro_valido">¿Giro válido?::</string>
@@ -50,5 +50,12 @@
     <string name="acc_y_mapa">AccY mapa(si pos. ok):</string>
     <string name="title_activity_registro">Registro</string>
     <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_medir">Medir intensidades wifi</string>
+    <string name="title_activity_menu2">Menu2</string>
+    <string name="title_activity_login">GuiDIn</string>
+    <string name="Salir">Salir</string>
+    <string name="title_activity_scan_result_activity2">ScanResultActivity2</string>
+    <string name="title_activity_wifis2">Wifis2</string>
+    <string name="title_activity_wifis_ab">WifisAB</string>
 
 </resources>

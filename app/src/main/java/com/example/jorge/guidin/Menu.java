@@ -18,8 +18,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import http.HttpServices;
+import dialogs.DialogController;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
+
+import org.apache.http.client.ClientProtocolException;
 
 
 public class Menu extends ListActivity {
@@ -29,6 +35,9 @@ public class Menu extends ListActivity {
     public static Activity activeActivity = null;
 
     public final static int MENU_QUIT = 0;
+
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +80,13 @@ public class Menu extends ListActivity {
             mIcon.setPadding(0, 2, 5, 0);
 
 
-            addView(mIcon,  new LinearLayout.LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            addView(mIcon,  new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
             mText = new TextView(context);
             mText.setText(text);
-            mText.setEms(20);
+            mText.setEms(22);
             mText.setMinimumHeight(100);
-            mText.setTextSize(20);
+            mText.setTextSize(22);
             //  mText.setBackgroundColor(android.R.color.white);
             addView(mText, new LinearLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -171,14 +179,47 @@ public class Menu extends ListActivity {
               /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
                 startActivity(intent);*/
         }else if (position == 5){
-              /*  Intent intent = new Intent(this, Medir.class);
-                startActivity(intent);*/
+            Intent intent = new Intent(this, Medir.class);
+            startActivity(intent);
         }else if (position == 6){
-               /* logout(username, password);
-                finish();*/
+            logout(username, password);
+            finish();
         }
 
     }
 
+    public void logout(String user, String password){
+        HttpServices service = new HttpServices();
+        try {
+            if(service.logout(user, password).equals("")){
+
+            }else{
+                DialogController.createInformDialog(this, "Error en el logout");
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        }
+    }
+
+
+    public String getUsername(){
+        return username;
+    }
+
+    public String getPassword(){
+        return password;
+    }
+
+    public void setUsername(String u){
+        username = u;
+    }
+
+    public void setPassword(String p){
+        password = p;
+    }
 
 }
