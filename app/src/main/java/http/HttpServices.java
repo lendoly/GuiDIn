@@ -89,6 +89,44 @@ public class HttpServices extends Activity {
 
     }
 
+
+	public String recuperarDiscapacidad(String user) throws ClientProtocolException, IOException{
+		if(ping()){
+			//  Toast.makeText(context, urlServer + "consultar.php?username=" + user + "&password=" + password, Toast.LENGTH_SHORT).show();
+			HttpGet httpget = new HttpGet(urlServer + "getDiscapacidad.php?username=" + user);
+			HttpGet[] a = {httpget};
+
+			// Llamamos a la clase que ejecuta en segundo plano.
+			Conecta c= new Conecta();
+			c.execute(a);
+
+			// Esperamos a que termine de ejecutarse el hilo con el m�todo get.
+			try {
+				c.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			String response = c.getResponse();
+
+			if(response.equals("NO")){
+				return "";
+			}else{
+				return response;
+			}
+
+		}else{
+			return "Servidor inaccesible";
+		}
+
+	}
+
+
+
     public String logout(String user, String password) throws ClientProtocolException, IOException{
     	if(ping()){
 

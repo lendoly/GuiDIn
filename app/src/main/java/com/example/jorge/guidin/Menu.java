@@ -9,6 +9,7 @@ import android.app.ListActivity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,8 +28,13 @@ import java.io.IOException;
 
 import org.apache.http.client.ClientProtocolException;
 
+import android.view.KeyEvent;
 
-public class Menu extends ListActivity {
+import android.speech.tts.TextToSpeech;
+import java.util.Locale;
+
+
+public class Menu extends ListActivity{
 
 
     private Resources mResources;
@@ -38,31 +44,81 @@ public class Menu extends ListActivity {
 
     private String username;
     private String password;
+    private String[] superables;
+    private String discapacidad;
+
+    TextToSpeech ttobj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mResources = getResources();
 
         IconifiedTextListAdapter adapter = new IconifiedTextListAdapter(this);
-        IconAndText aux = new IconAndText(this,null,getString(R.string.wifis),true);
+        IconAndText aux = new IconAndText(this, null, getString(R.string.wifis), true);
         adapter.addItem(aux);
-        aux = new IconAndText(this,null,getString(R.string.posicion),true);
+        aux = new IconAndText(this, null, getString(R.string.posicion), true);
         adapter.addItem(aux);
-        aux = new IconAndText(this,null,getString(R.string.aplicacion),true);
+        aux = new IconAndText(this, null, getString(R.string.pruebas), true);
         adapter.addItem(aux);
-        aux = new IconAndText(this,null,getString(R.string.pruebas),true);
+        aux = new IconAndText(this, null, getString(R.string.ruta), true);
         adapter.addItem(aux);
-        aux = new IconAndText(this,null,getString(R.string.ruta),true);
+        aux = new IconAndText(this, null, getString(R.string.medir), true);
         adapter.addItem(aux);
-        aux = new IconAndText(this,null,getString(R.string.medir),true);
+        aux = new IconAndText(this, null, getString(R.string.salir), true);
         adapter.addItem(aux);
-        aux = new IconAndText(this,null,getString(R.string.salir),true);
-        adapter.addItem(aux);
-
         this.setListAdapter(adapter);
+
+        username = Login.getUsername();
+        password = Login.getPassword();
+        superables = Login.getSuperables();
+        discapacidad = Login.getDiscapacidad();
+
+        ttobj=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if(status != TextToSpeech.ERROR){
+                            ttobj.setLanguage(new Locale("ES"));
+                        }
+                    }
+                });
     }
+
+    //reproduccion de voz
+    @Override
+    public void onPause(){
+        if(ttobj !=null){
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onPause();
+    }
+
+    public void speakText(){
+        String toSpeak = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse una tecla de volumen";
+        Toast.makeText(getApplicationContext(), toSpeak,
+                Toast.LENGTH_SHORT).show();
+        ttobj.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+
+    }
+
+    /*contro de las teclas fisicas*/
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch(keyCode){
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                speakText();
+                //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                onPause();
+                //Toast.makeText(this, "Boton de Volumen Down presionado", Toast.LENGTH_LONG).show();
+                return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     public class IconAndText extends LinearLayout {
 
@@ -84,9 +140,9 @@ public class Menu extends ListActivity {
 
             mText = new TextView(context);
             mText.setText(text);
-            mText.setEms(22);
-            mText.setMinimumHeight(100);
-            mText.setTextSize(22);
+            mText.setEms(24);
+            mText.setMinimumHeight(110);
+            mText.setTextSize(24);
             //  mText.setBackgroundColor(android.R.color.white);
             addView(mText, new LinearLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -170,18 +226,15 @@ public class Menu extends ListActivity {
         }else if(position == 1){
             Toast.makeText(getApplicationContext(), "hola", Toast.LENGTH_SHORT).show();
         }else if(position == 2){
-                /*Intent intent = new Intent(this, CameraActivity.class);
-                startActivity(intent);*/
-        }else if(position == 3){
             Intent intent = new Intent(this, Acelerometro.class);
             startActivity(intent);
-        }else if (position == 4){
+        }else if (position == 3){
               /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
                 startActivity(intent);*/
-        }else if (position == 5){
+        }else if (position == 4){
             Intent intent = new Intent(this, Medir.class);
             startActivity(intent);
-        }else if (position == 6){
+        }else if (position == 5){
             logout(username, password);
             finish();
         }
@@ -220,6 +273,22 @@ public class Menu extends ListActivity {
 
     public void setPassword(String p){
         password = p;
+    }
+
+    public String[] getSuperables() {
+        return superables;
+    }
+
+    public void setSuperables(String[] superables) {
+        this.superables = superables;
+    }
+
+    public String getDiscapacidad() {
+        return discapacidad;
+    }
+
+    public void setDiscapacidad(String discapacidad) {
+        this.discapacidad = discapacidad;
     }
 
 }

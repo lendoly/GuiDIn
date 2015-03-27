@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:text="@string/nombre"
         android:id="@+id/textViewName"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textSize="25dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="38dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginStart="38dp" />
 
     <TextView
@@ -63,34 +63,33 @@
         android:width="130dp"
         android:inputType="text"
         android:layout_above="@+id/textViewLastName"
-        android:layout_alignLeft="@+id/buttonCancel"
-        android:layout_alignStart="@+id/buttonCancel"
 
-         />
+        android:layout_alignTop="@+id/textViewName"
+        android:layout_alignRight="@+id/registerSurname"
+        android:layout_alignEnd="@+id/registerSurname"
+        android:layout_alignLeft="@+id/registerSurname"
+        android:layout_alignStart="@+id/registerSurname" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/registerSurname"
-        android:layout_alignBottom="@+id/textViewLastName"
-        android:layout_centerHorizontal="true"
         android:inputType="text"
-        android:layout_alignRight="@+id/registerName"
-        android:layout_alignEnd="@+id/registerName"
-        android:layout_alignLeft="@+id/registerName"
-        android:layout_alignStart="@+id/registerName"
-        android:width="130dp" />
+        android:width="130dp"
+        android:layout_alignBottom="@+id/textViewLastName"
+        android:layout_alignLeft="@+id/registerUser"
+        android:layout_alignStart="@+id/registerUser" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/registerUser"
+        android:width="130dp"
         android:layout_alignBottom="@+id/textViewUser"
-        android:layout_alignLeft="@+id/registerName"
-        android:width="130dp" />
+        android:layout_alignLeft="@+id/registerPassword"
+        android:layout_alignStart="@+id/registerPassword" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -98,10 +97,10 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/registerPassword"
+        android:width="130dp"
         android:layout_alignBottom="@+id/textViewPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_alignLeft="@+id/registerUser"
-        android:width="130dp" />
+        android:layout_alignLeft="@+id/buttonCancel"
+        android:layout_alignStart="@+id/buttonCancel" />
 
     <Button
         android:layout_width="wrap_content"
@@ -126,13 +125,24 @@
         android:width="130dp"
          />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:textSize="15dp"
+        android:text="Seleccione los elementos que su discapacidad le permite superar:"
+        android:id="@+id/textViewSuperables"
+        android:layout_below="@+id/textViewPassword"
+        android:layout_alignLeft="@+id/escaleras"
+        android:layout_alignStart="@+id/escaleras" />
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/escaleras"
         android:id="@+id/escaleras"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/registerPassword"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/textViewSuperables"
         android:layout_alignLeft="@+id/textViewPassword"
         android:layout_alignStart="@+id/textViewPassword"
         android:onClick="onCheckboxClicked"/>
@@ -152,19 +162,21 @@
         android:layout_height="wrap_content"
         android:text="@string/puerta"
         android:id="@+id/puerta"
-        android:layout_below="@+id/ascensor"
-        android:layout_alignLeft="@+id/ascensor"
-        android:layout_alignStart="@+id/ascensor"
-        android:onClick="onCheckboxClicked"/>
+        android:onClick="onCheckboxClicked"
+        android:layout_alignTop="@+id/escaleras"
+        android:layout_alignLeft="@+id/buttonCancel"
+        android:layout_alignStart="@+id/buttonCancel" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rampa"
         android:id="@+id/rampa"
+        android:onClick="onCheckboxClicked"
         android:layout_below="@+id/puerta"
-        android:layout_alignLeft="@+id/buttonAccept"
-        android:layout_alignStart="@+id/buttonAccept"
-        android:onClick="onCheckboxClicked"/>
+        android:layout_alignLeft="@+id/puerta"
+        android:layout_alignStart="@+id/puerta" />
+
+
 
 </RelativeLayout>

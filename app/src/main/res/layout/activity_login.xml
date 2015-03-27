@@ -7,15 +7,26 @@
     tools:context="com.example.jorge.guidin.Login">
 
     <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/app_name"
+    android:id="@+id/textViewTittle"
+    android:textSize="50dp"
+    android:layout_marginTop="40dp"
+    android:textColor="#ff687dff"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:id="@+id/textViewTittle"
-        android:textSize="50dp"
-        android:layout_marginTop="50dp"
+        android:text="@string/app_longname"
+        android:id="@+id/textViewSubTittle"
+        android:textSize="15dp"
         android:textColor="#ff687dff"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/textViewTittle"
         android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:layout_width="wrap_content"
