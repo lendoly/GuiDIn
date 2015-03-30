@@ -16,10 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import org.apache.http.client.ClientProtocolException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import dialogs.DialogController;
 import http.HttpServices;
+import android.speech.RecognizerIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import java.util.List;
+
 
 import android.widget.Toast;
 
@@ -31,14 +37,16 @@ public class Login extends ActionBarActivity {
     private static String[] superables;
     private static String discapacidad;
     private TextToSpeech ttobj;
-
+    private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
+    private static final int REQUEST_CHECK_TTS = 0x1000;
+    private String vozReconocida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ttobj=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
+        ttobj = new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR){
@@ -46,8 +54,6 @@ public class Login extends ActionBarActivity {
                 }
             }
         });
-
-        speakText();
 
         Button registrar = (Button)findViewById(R.id.buttonRegister);
 
@@ -91,6 +97,8 @@ public class Login extends ActionBarActivity {
                     }
                 }
         );
+        String bienvenida = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse la tecla de volumen arriba";
+        speakText(bienvenida);
     }
 
 
@@ -104,11 +112,10 @@ public class Login extends ActionBarActivity {
         super.onPause();
     }
 
-    public void speakText(){
-        String toSpeak = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse una tecla de volumen";
-        Toast.makeText(getApplicationContext(), toSpeak,
+    public void speakText(String texto){
+        Toast.makeText(getApplicationContext(), texto,
                 Toast.LENGTH_LONG).show();
-        ttobj.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     /*contro de las teclas fisicas*/
@@ -117,15 +124,82 @@ public class Login extends ActionBarActivity {
 
         switch(keyCode){
             case KeyEvent.KEYCODE_VOLUME_UP:
-                speakText();
+                setDiscapacidad("visual");
+                onPause();
+                speakText("Diga registro para registrarse, o diga login para entrar en la aplicación");
+                try {
+                    Thread.sleep(6000);
+                } catch(InterruptedException e) {}
+                reconocimientoDeVoz();
                 //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                onPause();
+
                 //Toast.makeText(this, "Boton de Volumen Down presionado", Toast.LENGTH_LONG).show();
                 return true;
         }
         return super.onKeyDown(keyCode,event);
+    }
+
+
+    public void reconocimientoDeVoz() {
+        if(!hasVoicerec()) {
+            Toast.makeText(this, "Este terminal no tiene instalado el soporte de reconocimiento de voz", Toast.LENGTH_LONG).show();
+            return;
+        }
+        final Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        voiceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        final String miPackage = getClass().getPackage().getName();
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, miPackage);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable ahora");
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        startActivityForResult(voiceIntent, VOICE_RECOGNITION_REQUEST_CODE);
+    }
+
+
+    public boolean hasVoicerec() {
+        final PackageManager pm = getPackageManager();
+        final List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+        return (activities.size() != 0);
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //Reconocimiento de voz
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Fill the list view with the strings the recognizer thought it
+            // could have heard
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
+            // TODO hacer lo que sea con las cadenas
+            if (matches != null && matches.size() > 0) {
+                vozReconocida = matches.get(0);
+                if(vozReconocida.equals("registro")) {
+                    Intent i = new Intent(getActivity(), Registro.class);
+                    startActivity(i);
+                }else{
+                    //pedir nombre usuario
+                }
+            } else {
+                vozReconocida = "Sin destino";
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+        //Reproducción de voz
+        if (requestCode == REQUEST_CHECK_TTS) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                // success, create the TTS instance
+                //mTts = new TextToSpeech(this, this);
+            } else {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
     }
 
 

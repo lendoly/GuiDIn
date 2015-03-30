@@ -109,6 +109,7 @@ public class Menu extends ListActivity{
         switch(keyCode){
             case KeyEvent.KEYCODE_VOLUME_UP:
                 speakText();
+                //this.getCurrentFocus().setNextFocusDownId(this.getCurrentFocus().getNextFocusForwardId());
                 //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
