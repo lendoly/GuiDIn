@@ -21,10 +21,10 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
-import dialogs.DialogController;
-import http.HttpServices;
-import wps.WPS;
-import wps.WPSException;
+import com.example.jorge.guidin.dialogs.DialogController;
+import com.example.jorge.guidin.http.HttpServices;
+import com.example.jorge.guidin.wps.WPS;
+import com.example.jorge.guidin.wps.WPSException;
 
 
 

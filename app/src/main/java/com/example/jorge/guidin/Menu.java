@@ -19,8 +19,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import http.HttpServices;
-import dialogs.DialogController;
+import com.example.jorge.guidin.http.HttpServices;
+import com.example.jorge.guidin.dialogs.DialogController;
+import com.example.jorge.guidin.wps.ThreadDatos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,9 @@ import org.apache.http.client.ClientProtocolException;
 
 import android.view.KeyEvent;
 
-import android.speech.tts.TextToSpeech;
 import java.util.Locale;
+
+import android.view.Gravity;
 
 
 public class Menu extends ListActivity{
@@ -39,6 +41,7 @@ public class Menu extends ListActivity{
 
     private Resources mResources;
     public static Activity activeActivity = null;
+    public static ThreadDatos thread;
 
     public final static int MENU_QUIT = 0;
 
@@ -46,6 +49,7 @@ public class Menu extends ListActivity{
     private String password;
     private String[] superables;
     private String discapacidad;
+    private boolean admin;
 
     TextToSpeech ttobj;
 
@@ -54,25 +58,33 @@ public class Menu extends ListActivity{
         super.onCreate(savedInstanceState);
         mResources = getResources();
 
-        IconifiedTextListAdapter adapter = new IconifiedTextListAdapter(this);
-        IconAndText aux = new IconAndText(this, null, getString(R.string.wifis), true);
-        adapter.addItem(aux);
-        aux = new IconAndText(this, null, getString(R.string.posicion), true);
-        adapter.addItem(aux);
-        aux = new IconAndText(this, null, getString(R.string.pruebas), true);
-        adapter.addItem(aux);
-        aux = new IconAndText(this, null, getString(R.string.ruta), true);
-        adapter.addItem(aux);
-        aux = new IconAndText(this, null, getString(R.string.medir), true);
-        adapter.addItem(aux);
-        aux = new IconAndText(this, null, getString(R.string.salir), true);
-        adapter.addItem(aux);
-        this.setListAdapter(adapter);
+        if(thread == null){
+            thread = createAndStartThread(); //Comienza a recuperar los datos de BD
+        }
 
         username = Login.getUsername();
         password = Login.getPassword();
         superables = Login.getSuperables();
         discapacidad = Login.getDiscapacidad();
+        admin = Login.isAdmin();
+
+        IconifiedTextListAdapter adapter = new IconifiedTextListAdapter(this);
+        IconAndText aux = new IconAndText(this, null, getString(R.string.ruta), true);
+        adapter.addItem(aux);
+        aux = new IconAndText(this, null, getString(R.string.posicion), true);
+        adapter.addItem(aux);
+        if (this.admin) {
+            aux = new IconAndText(this, null, getString(R.string.wifis), true);
+            adapter.addItem(aux);
+            aux = new IconAndText(this, null, getString(R.string.pruebas), true);
+            adapter.addItem(aux);
+
+            aux = new IconAndText(this, null, getString(R.string.medir), true);
+            adapter.addItem(aux);
+        }
+        aux = new IconAndText(this, null, getString(R.string.salir), true);
+        adapter.addItem(aux);
+        this.setListAdapter(adapter);
 
         ttobj=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
                     @Override
@@ -82,6 +94,16 @@ public class Menu extends ListActivity{
                         }
                     }
                 });
+
+        if(discapacidad.equals("visual")){
+            speakText("Pulse la tecla de subir volumen para indicar un destino, pulse la tecla de bajar el volumen para posicionarle en el mapa, o pulse la tecla atras para cerrar sesión.");
+        }
+    }
+
+    public ThreadDatos createAndStartThread(){
+        ThreadDatos t = new ThreadDatos(ThreadDatos.ESTADO_EJECUCION);
+        //t.start();
+        return t;
     }
 
     //reproduccion de voz
@@ -94,10 +116,9 @@ public class Menu extends ListActivity{
         super.onPause();
     }
 
-    public void speakText(){
-        String toSpeak = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse una tecla de volumen";
-        Toast.makeText(getApplicationContext(), toSpeak,
-                Toast.LENGTH_SHORT).show();
+    public void speakText(String texto){
+        String toSpeak = texto;
+        Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
         ttobj.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
     }
@@ -108,13 +129,18 @@ public class Menu extends ListActivity{
 
         switch(keyCode){
             case KeyEvent.KEYCODE_VOLUME_UP:
-                speakText();
+                speakText("A seleccionado indicar destino");
                 //this.getCurrentFocus().setNextFocusDownId(this.getCurrentFocus().getNextFocusForwardId());
                 //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                onPause();
+                speakText("A seleccionado posicionar en el mapa");
                 //Toast.makeText(this, "Boton de Volumen Down presionado", Toast.LENGTH_LONG).show();
+                return true;
+            case KeyEvent.KEYCODE_BACK:
+                speakText("A seleccionado cerrar sesión");
+                logout(username, password);
+                finish();
                 return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -142,8 +168,9 @@ public class Menu extends ListActivity{
             mText = new TextView(context);
             mText.setText(text);
             mText.setEms(24);
-            mText.setMinimumHeight(110);
-            mText.setTextSize(24);
+            mText.setGravity(Gravity.CENTER);
+            mText.setMinimumHeight(300);
+            mText.setTextSize(26);
             //  mText.setBackgroundColor(android.R.color.white);
             addView(mText, new LinearLayout.LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -221,24 +248,41 @@ public class Menu extends ListActivity{
     @Override
     protected void onListItemClick (ListView l, View v, int position, long id){
         super.onListItemClick(l,v,position,id);
-        if(position==0){
-            Intent intent = new Intent(this, Wifis.class);
-            startActivity(intent);
-        }else if(position == 1){
-            Toast.makeText(getApplicationContext(), "hola", Toast.LENGTH_SHORT).show();
-        }else if(position == 2){
-            Intent intent = new Intent(this, Acelerometro.class);
-            startActivity(intent);
-        }else if (position == 3){
-              /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
+        if(this.admin){
+            if(position==0){
+                Toast.makeText(getApplicationContext(), "Has pulsado indicar destino", Toast.LENGTH_SHORT).show();
+                /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
                 startActivity(intent);*/
-        }else if (position == 4){
-            Intent intent = new Intent(this, Medir.class);
-            startActivity(intent);
-        }else if (position == 5){
-            logout(username, password);
-            finish();
+            }else if(position == 1){
+                Intent intent = new Intent(this, Posicion.class);
+                startActivity(intent);
+            }else if(position == 2){
+                Intent intent = new Intent(this, Wifis.class);
+                startActivity(intent);
+            }else if (position == 3){
+                Intent intent = new Intent(this, Acelerometro.class);
+                startActivity(intent);
+            }else if (position == 4){
+                Intent intent = new Intent(this, Medir.class);
+                startActivity(intent);
+            }else if (position == 5){
+                logout(username, password);
+                finish();
+            }
         }
+        else{
+            if(position==0){
+                Toast.makeText(getApplicationContext(), "Has pulsado indicar destino", Toast.LENGTH_SHORT).show();
+                /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
+                startActivity(intent);*/
+            }else if(position == 1){
+                Toast.makeText(getApplicationContext(), "Has pulsado posición en el mapa", Toast.LENGTH_SHORT).show();
+            }else if (position == 2) {
+                logout(username, password);
+                finish();
+            }
+        }
+
 
     }
 

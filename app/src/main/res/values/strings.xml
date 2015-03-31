@@ -19,7 +19,7 @@
     <string name="posicion">Posición en el mapa</string>
     <string name="aplicacion">Aplicación real</string>
     <string name="pruebas">Ver acelerometros</string>
-    <string name="ruta">Indicar ruta destino</string>
+    <string name="ruta">Indicar destino</string>
     <string name="medir">Medir intensidades</string>
     <string name="salir">Cerrar sesión</string>
     <string name="title_activity_wifis">Wifis</string>
@@ -60,6 +60,7 @@
     <!--- Botones -->
     <string name="boton_aceptar">Aceptar</string>
     <string name="boton_cancelar">Cancelar</string>
+    <string name="title_activity_posicion">Posicion</string>
 
 
 </resources>

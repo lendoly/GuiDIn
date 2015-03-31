@@ -40,8 +40,8 @@
         <activity
             android:name=".DetalleWifi"
             android:label="@string/title_activity_scan_result"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Wifis" >
+            android:parentActivityName=".Wifis"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.jorge.guidin.Menu" />
@@ -67,11 +67,20 @@
         <activity
             android:name=".Medir"
             android:label="@string/title_activity_medir"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Menu" >
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Menu" />
         </activity>
+        <activity
+            android:name=".Posicion"
+            android:label="@string/title_activity_posicion"
+            android:parentActivityName=".Menu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jorge.guidin.Menu" />
+        </activity>
     </application>
+
 </manifest>

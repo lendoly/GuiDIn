@@ -14,8 +14,8 @@ import org.apache.http.client.ClientProtocolException;
 
 import java.io.IOException;
 
-import dialogs.DialogController;
-import http.HttpServices;
+import com.example.jorge.guidin.dialogs.DialogController;
+import com.example.jorge.guidin.http.HttpServices;
 
 
 public class Registro extends ActionBarActivity {

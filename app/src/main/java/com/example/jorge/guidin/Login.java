@@ -19,14 +19,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import dialogs.DialogController;
-import http.HttpServices;
+import com.example.jorge.guidin.dialogs.DialogController;
+import com.example.jorge.guidin.http.HttpServices;
 import android.speech.RecognizerIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import java.util.List;
 
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -36,10 +37,13 @@ public class Login extends ActionBarActivity {
     private static String password;
     private static String[] superables;
     private static String discapacidad;
+    private static boolean admin;
     private TextToSpeech ttobj;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
     private static final int REQUEST_CHECK_TTS = 0x1000;
     private String vozReconocida;
+
+    final String bienvenida = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse la tecla de volumen arriba";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class Login extends ActionBarActivity {
                     }
                 }
         );
-        String bienvenida = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse la tecla de volumen arriba";
+
         speakText(bienvenida);
     }
 
@@ -113,8 +117,7 @@ public class Login extends ActionBarActivity {
     }
 
     public void speakText(String texto){
-        Toast.makeText(getApplicationContext(), texto,
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
         ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null);
     }
 
@@ -126,9 +129,9 @@ public class Login extends ActionBarActivity {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 setDiscapacidad("visual");
                 onPause();
-                speakText("Diga registro para registrarse, o diga login para entrar en la aplicación");
+                speakText("Diga registro para registrarse, o diga entrar para entrar en la aplicación");
                 try {
-                    Thread.sleep(6000);
+                    Thread.sleep(3000);
                 } catch(InterruptedException e) {}
                 reconocimientoDeVoz();
                 //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
@@ -179,11 +182,11 @@ public class Login extends ActionBarActivity {
                 if(vozReconocida.equals("registro")) {
                     Intent i = new Intent(getActivity(), Registro.class);
                     startActivity(i);
-                }else{
-                    //pedir nombre usuario
+                }else if(vozReconocida.equals("entrar")) {
+                    pedirUsuarioPorVoz();
+                    pedirPasswordPorVoz();
+                    login(username,password);
                 }
-            } else {
-                vozReconocida = "Sin destino";
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -202,6 +205,36 @@ public class Login extends ActionBarActivity {
         }
     }
 
+    public void pedirUsuarioPorVoz(){
+        speakText("Diga el nombre de usuario:");
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){}
+        reconocimientoDeVoz();
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){}
+        TextView usuario =  (TextView)findViewById(R.id.editTextUser);
+        usuario.setText(vozReconocida);
+        username = vozReconocida;
+    }
+
+    public void pedirPasswordPorVoz(){
+        speakText("Diga su contraseña:");
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){}
+        reconocimientoDeVoz();
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){}
+        TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
+        contraseña.setText(vozReconocida);
+        password = vozReconocida;
+
+    }
+
+
 
     public void login(String user, String password) {
         HttpServices service = new HttpServices();
@@ -213,6 +246,7 @@ public class Login extends ActionBarActivity {
             }else if(result.equals("Servidor inaccesible")){
                 DialogController.createInformDialog(this, "Error en el servidor");
             }else{
+                //controlar si es por voz, pedir otra vez los credenciales por voz
                 DialogController.createInformDialog(this, "Error en el login");
             }
 
@@ -235,9 +269,14 @@ public class Login extends ActionBarActivity {
                     DialogController.createInformDialog(this, "Error en el servidor");
             }else{
                 //rellenar la discapacidad y los superables
-                String[] discapacidadesYSuperables = discaSupe.split(";");
-                superables = discapacidadesYSuperables[0].split(",");
-                discapacidad = discapacidadesYSuperables[1];
+                String[] discapacidadesSuperablesAdmin = discaSupe.split(";");
+                superables = discapacidadesSuperablesAdmin[0].split(",");
+                discapacidad = discapacidadesSuperablesAdmin[1];
+                String ad = discapacidadesSuperablesAdmin[2];
+                if (ad.equals("1"))
+                    admin = true;
+                else
+                    admin = false;
 
             }
 
@@ -341,6 +380,16 @@ public class Login extends ActionBarActivity {
     @SuppressWarnings("static-access")
     public static String getDiscapacidad() {
         return discapacidad;
+    }
+
+    @SuppressWarnings("static-access")
+    public static boolean isAdmin() {
+        return admin;
+    }
+
+    @SuppressWarnings("static-access")
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
 

@@ -21,9 +21,9 @@ import android.content.Intent;
 
 import java.util.List;
 
-import wps.WPS;
-import wps.WPSException;
-import dialogs.DialogController;
+import com.example.jorge.guidin.wps.WPS;
+import com.example.jorge.guidin.wps.WPSException;
+import com.example.jorge.guidin.dialogs.DialogController;
 
 
 public class Wifis extends ListActivity  {
