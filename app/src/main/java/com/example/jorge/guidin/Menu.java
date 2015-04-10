@@ -3,6 +3,7 @@ package com.example.jorge.guidin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.res.Resources;
 
 import android.content.Context;
 import android.app.ListActivity;
@@ -56,12 +57,14 @@ public class Menu extends ListActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mResources = getResources();
+
 
         if(thread == null){
             thread = createAndStartThread(); //Comienza a recuperar los datos de BD
-        }
+            Toast.makeText(getApplicationContext(), "hola", Toast.LENGTH_SHORT).show();
 
+        }
+        mResources = getResources();
         username = Login.getUsername();
         password = Login.getPassword();
         superables = Login.getSuperables();
@@ -102,7 +105,14 @@ public class Menu extends ListActivity{
 
     public ThreadDatos createAndStartThread(){
         ThreadDatos t = new ThreadDatos(ThreadDatos.ESTADO_EJECUCION);
-        //t.start();
+        Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
+            public void uncaughtException(Thread th, Throwable ex) {
+                Toast.makeText(getApplicationContext(), "Uncaught exception: " + ex, Toast.LENGTH_SHORT).show();
+                System.out.println("Uncaught exception: " + ex);
+            }
+        };
+        t.setUncaughtExceptionHandler(h);
+        t.start();
         return t;
     }
 

@@ -185,7 +185,8 @@ public class Login extends ActionBarActivity {
                 }else if(vozReconocida.equals("entrar")) {
                     pedirUsuarioPorVoz();
                     pedirPasswordPorVoz();
-                    login(username,password);
+                    Toast.makeText(this,username + "," + password,Toast.LENGTH_LONG).show();
+                    login(username, password);
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);
