@@ -236,7 +236,6 @@ public class WPSDatabase {
     /**
      * Método que recupera los vecinos más cercanos con sus distancias euclideas y calcula<br>
      * la estimación de posición del terminal
-     * @param coordenadas
      * @return
      */
     public Coordenada calculatePosition(List<ScanResult> macs){

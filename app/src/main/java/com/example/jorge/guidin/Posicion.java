@@ -29,17 +29,16 @@ public void onCreate(final Bundle savedInstanceState) {
     Menu.activeActivity = this;
     super.onCreate(savedInstanceState);
 
-    requestWindowFeature(Window.FEATURE_NO_TITLE);
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+    /*requestWindowFeature(Window.FEATURE_NO_TITLE);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
 
     setContentView(R.layout.activity_posicion);
     RelativeLayout main = (RelativeLayout) findViewById(R.id.positionLayout);
 
-    //cuadrantes = thread.getCuadrantes();
     cuadrantes = new ListaCuadrantes();
     m = new Mapa(this);
-    m.setListaCuadrantes(cuadrantes);
-    //main.addView(m, params);
+    m.setListaCuadrantes(cuadrantes);;
     main.addView(m);
     pd = ProgressDialog.show(this, "", "Cargando datos...");
     comprobar = new Thread(){
@@ -48,8 +47,6 @@ public void onCreate(final Bundle savedInstanceState) {
         }
     };
     comprobar.start();
-
-
 }
 
 

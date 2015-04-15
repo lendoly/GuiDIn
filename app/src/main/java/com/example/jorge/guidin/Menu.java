@@ -3,13 +3,9 @@ package com.example.jorge.guidin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.res.Resources;
-
 import android.content.Context;
 import android.app.ListActivity;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +35,6 @@ import android.view.Gravity;
 
 public class Menu extends ListActivity{
 
-
-    private Resources mResources;
     public static Activity activeActivity = null;
     public static ThreadDatos thread;
 
@@ -61,10 +55,7 @@ public class Menu extends ListActivity{
 
         if(thread == null){
             thread = createAndStartThread(); //Comienza a recuperar los datos de BD
-            Toast.makeText(getApplicationContext(), "hola", Toast.LENGTH_SHORT).show();
-
         }
-        mResources = getResources();
         username = Login.getUsername();
         password = Login.getPassword();
         superables = Login.getSuperables();
@@ -286,7 +277,8 @@ public class Menu extends ListActivity{
                 /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
                 startActivity(intent);*/
             }else if(position == 1){
-                Toast.makeText(getApplicationContext(), "Has pulsado posición en el mapa", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, Posicion.class);
+                startActivity(intent);
             }else if (position == 2) {
                 logout(username, password);
                 finish();
