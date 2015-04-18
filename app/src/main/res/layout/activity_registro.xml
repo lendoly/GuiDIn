@@ -4,7 +4,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.jorge.guidin.Registro">
+    tools:context="com.example.jorge.guidin.Registro"
+    >
 
 
     <TextView
@@ -20,17 +21,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginStart="38dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/apellido"
-        android:id="@+id/textViewLastName"
-        android:textSize="25dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/textViewName"
-        android:layout_alignLeft="@+id/textViewName"
-        android:layout_alignStart="@+id/textViewName" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,9 +30,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:textSize="25dp"
-        android:layout_below="@+id/textViewLastName"
-        android:layout_alignLeft="@+id/textViewLastName"
-        android:layout_alignStart="@+id/textViewLastName" />
+        android:layout_below="@+id/textViewName"
+        android:layout_alignLeft="@+id/textViewName"
+        android:layout_alignStart="@+id/textViewName" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,8 +43,8 @@
         android:layout_marginTop="40dp"
         android:textSize="25dp"
         android:layout_below="@+id/textViewUser"
-        android:layout_alignLeft="@+id/textViewLastName"
-        android:layout_alignStart="@+id/textViewLastName" />
+        android:layout_alignLeft="@+id/textViewName"
+        android:layout_alignStart="@+id/textViewName" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -62,23 +52,10 @@
         android:id="@+id/registerName"
         android:width="130dp"
         android:inputType="text"
-        android:layout_above="@+id/textViewLastName"
-
-        android:layout_alignTop="@+id/textViewName"
-        android:layout_alignRight="@+id/registerSurname"
-        android:layout_alignEnd="@+id/registerSurname"
-        android:layout_alignLeft="@+id/registerSurname"
-        android:layout_alignStart="@+id/registerSurname" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registerSurname"
-        android:inputType="text"
-        android:width="130dp"
-        android:layout_alignBottom="@+id/textViewLastName"
+        android:layout_alignBottom="@+id/textViewName"
         android:layout_alignLeft="@+id/registerUser"
         android:layout_alignStart="@+id/registerUser" />
+
 
     <EditText
         android:layout_width="wrap_content"
@@ -107,55 +84,100 @@
         android:layout_height="wrap_content"
         android:text="@string/boton_aceptar"
         android:id="@+id/buttonAccept"
-        android:layout_below="@+id/textViewPassword"
+        android:layout_below="@+id/ascensor"
+        android:layout_alignTop="@+id/buttonCancel"
         android:layout_alignRight="@+id/textViewPassword"
         android:layout_alignEnd="@+id/textViewPassword"
-        android:layout_marginTop="150dp"
-        android:layout_alignLeft="@+id/textViewPassword"
-        android:layout_alignStart="@+id/textViewPassword" />
+        android:layout_alignLeft="@+id/ascensor"
+        android:layout_alignStart="@+id/ascensor" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/boton_cancelar"
         android:id="@+id/buttonCancel"
-        android:layout_alignTop="@+id/buttonAccept"
-        android:layout_toRightOf="@+id/buttonAccept"
-        android:layout_marginLeft="38dp"
         android:width="130dp"
-         />
+        android:layout_below="@+id/rampa"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:text="Seleccione su discapacidad"
+        android:id="@+id/textView"
+        android:textSize="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/textViewPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:id="@+id/radioGroup"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ninguna"
+            android:onClick="onRadioButtonClicked"
+            android:id="@+id/radioNinguna"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Visual"
+            android:id="@+id/radioVisual"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auditiva"
+            android:onClick="onRadioButtonClicked"
+            android:id="@+id/radioAuditiva"
+            android:checked="false" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="15dp"
         android:text="Seleccione los elementos que su discapacidad le permite superar:"
         android:id="@+id/textViewSuperables"
-        android:layout_below="@+id/textViewPassword"
-        android:layout_alignLeft="@+id/escaleras"
-        android:layout_alignStart="@+id/escaleras" />
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/radioGroup"
+        android:layout_alignRight="@+id/registerPassword"
+        android:layout_alignEnd="@+id/registerPassword" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/escaleras"
         android:id="@+id/escaleras"
-        android:layout_marginTop="15dp"
+        android:onClick="onCheckboxClicked"
         android:layout_below="@+id/textViewSuperables"
         android:layout_alignLeft="@+id/textViewPassword"
-        android:layout_alignStart="@+id/textViewPassword"
-        android:onClick="onCheckboxClicked"/>
+        android:layout_alignStart="@+id/textViewPassword" />
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ascensor"
         android:id="@+id/ascensor"
+        android:onClick="onCheckboxClicked"
         android:layout_below="@+id/escaleras"
-        android:layout_alignLeft="@+id/escaleras"
-        android:layout_alignStart="@+id/escaleras"
-        android:onClick="onCheckboxClicked"/>
+        android:layout_alignRight="@+id/escaleras"
+        android:layout_alignEnd="@+id/escaleras" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -163,9 +185,9 @@
         android:text="@string/puerta"
         android:id="@+id/puerta"
         android:onClick="onCheckboxClicked"
-        android:layout_alignTop="@+id/escaleras"
-        android:layout_alignLeft="@+id/buttonCancel"
-        android:layout_alignStart="@+id/buttonCancel" />
+        android:layout_above="@+id/rampa"
+        android:layout_alignLeft="@+id/rampa"
+        android:layout_alignStart="@+id/rampa" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -173,10 +195,9 @@
         android:text="@string/rampa"
         android:id="@+id/rampa"
         android:onClick="onCheckboxClicked"
-        android:layout_below="@+id/puerta"
-        android:layout_alignLeft="@+id/puerta"
-        android:layout_alignStart="@+id/puerta" />
-
+        android:layout_below="@+id/escaleras"
+        android:layout_alignLeft="@+id/registerPassword"
+        android:layout_alignStart="@+id/registerPassword" />
 
 
 </RelativeLayout>

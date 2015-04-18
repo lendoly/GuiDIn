@@ -167,17 +167,15 @@ public class HttpServices extends Activity {
      * @param user
      * @param password
      * @param name
-     * @param surname
      * @return <code>"CORRECTO"</code> si lo consigue, <code>"ERROR"</code> en caso de error e informaci�n
      * de la excepci�n en otro caso
      * @throws ClientProtocolException
      * @throws IOException
      */
-    public String register(String user, String password, String name, String surname, String superables) throws ClientProtocolException, IOException{
+    public String register(String user, String password, String name, String superables, int discapacidad) throws ClientProtocolException, IOException{
     	//if(ping()){
-
-    		HttpGet httpget = new HttpGet(urlServer + "registrar.php?username=" + user + "&password=" + password + "&nombre=" + name + "&apellidos="+ surname
-                                            + "&superables="+ superables);
+			String url = urlServer + "registrar.php?username=" + user + "&password=" + password + "&nombre=" + name + "&superables="+ superables+ "&discapacidad="+ discapacidad;
+    		HttpGet httpget = new HttpGet(url);
     		HttpGet[] a = {httpget};
 
     		// Llamamos a la clase que ejecuta en segundo plano.

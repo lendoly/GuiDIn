@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.RadioButton;
 
 import org.apache.http.client.ClientProtocolException;
 
@@ -21,6 +23,7 @@ import com.example.jorge.guidin.http.HttpServices;
 public class Registro extends ActionBarActivity {
 
     private boolean[] superables = {false,false,false,false};
+    private int discapacidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +65,6 @@ public class Registro extends ActionBarActivity {
         if(s.equals("")){
             return "Debes completar el campo \"Nombre\"";
         }
-        text = (EditText)findViewById(R.id.registerSurname);
-        if(s.equals("")){
-            return "Debes completar el campo \"Apellidos\"";
-        }
         text = (EditText)findViewById(R.id.registerUser);
         if(s.equals("")){
             return "Debes completar el campo \"Usuario\"";
@@ -102,8 +101,7 @@ public class Registro extends ActionBarActivity {
             String s = service.register(((EditText)findViewById(R.id.registerUser)).getText().toString(),
                     ((EditText)findViewById(R.id.registerPassword)).getText().toString(),
                     ((EditText)findViewById(R.id.registerName)).getText().toString(),
-                    ((EditText)findViewById(R.id.registerSurname)).getText().toString(),
-                    list_supererables);
+                    list_supererables, discapacidad);
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -147,6 +145,30 @@ public class Registro extends ActionBarActivity {
             // TODO: Veggie sandwich
         }
     }
+
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.radioVisual:
+                if (checked)
+                    discapacidad = 2;
+
+                    break;
+            case R.id.radioAuditiva:
+                if (checked)
+                    discapacidad = 1;
+                    break;
+            case R.id.radioNinguna:
+                if (checked)
+                    discapacidad = 0;
+                break;
+        }
+    }
+
 
     public Activity getActivity(){
         return this;
