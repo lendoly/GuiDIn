@@ -52,6 +52,8 @@
     <string name="title_activity_scan_result_activity2">ScanResultActivity2</string>
     <string name="title_activity_wifis2">Wifis2</string>
     <string name="title_activity_wifis_ab">WifisAB</string>
+    <string name="destino">Buscar destino</string>
+    <string name="voz">Busqueda por voz</string>
     <!--- Checkbox -->
     <string name="escaleras">Escaleras</string>
     <string name="ascensor">Ascensor</string>
@@ -61,6 +63,7 @@
     <string name="boton_aceptar">Aceptar</string>
     <string name="boton_cancelar">Cancelar</string>
     <string name="title_activity_posicion">Posicion</string>
+    <string name="title_activity_indicar_destino">IndicarDestino</string>
 
 
 </resources>

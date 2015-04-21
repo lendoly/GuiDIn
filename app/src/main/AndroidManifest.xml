@@ -81,6 +81,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.jorge.guidin.Menu" />
         </activity>
+        <activity
+            android:name=".IndicarDestino"
+            android:label="@string/title_activity_indicar_destino"
+            android:parentActivityName=".Menu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jorge.guidin.Menu" />
+        </activity>
     </application>
 
 </manifest>

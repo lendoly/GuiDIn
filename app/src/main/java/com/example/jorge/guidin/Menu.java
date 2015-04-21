@@ -104,6 +104,7 @@ public class Menu extends ListActivity{
         };
         t.setUncaughtExceptionHandler(h);
         t.start();
+        t.run();
         return t;
     }
 
@@ -251,9 +252,8 @@ public class Menu extends ListActivity{
         super.onListItemClick(l,v,position,id);
         if(this.admin){
             if(position==0){
-                Toast.makeText(getApplicationContext(), "Has pulsado indicar destino", Toast.LENGTH_SHORT).show();
-                /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(this, IndicarDestino.class);
+                startActivity(intent);
             }else if(position == 1){
                 Intent intent = new Intent(this, Posicion.class);
                 startActivity(intent);
@@ -273,9 +273,8 @@ public class Menu extends ListActivity{
         }
         else{
             if(position==0){
-                Toast.makeText(getApplicationContext(), "Has pulsado indicar destino", Toast.LENGTH_SHORT).show();
-                /* Intent intent = new Intent(this, VoicePlaybackSystem.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(this, IndicarDestino.class);
+                startActivity(intent);
             }else if(position == 1){
                 Intent intent = new Intent(this, Posicion.class);
                 startActivity(intent);
