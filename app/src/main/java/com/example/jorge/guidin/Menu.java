@@ -128,19 +128,17 @@ public class Menu extends ListActivity{
     /*contro de las teclas fisicas*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
+        Intent intent;
         switch(keyCode){
             case KeyEvent.KEYCODE_VOLUME_UP:
-                speakText("A seleccionado indicar destino");
-                //this.getCurrentFocus().setNextFocusDownId(this.getCurrentFocus().getNextFocusForwardId());
-                //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
+                intent = new Intent(this, IndicarDestino.class);
+                startActivity(intent);
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                speakText("A seleccionado posicionar en el mapa");
-                //Toast.makeText(this, "Boton de Volumen Down presionado", Toast.LENGTH_LONG).show();
+                intent = new Intent(this, Posicion.class);
+                startActivity(intent);
                 return true;
             case KeyEvent.KEYCODE_BACK:
-                speakText("A seleccionado cerrar sesión");
                 logout(username, password);
                 finish();
                 return true;
