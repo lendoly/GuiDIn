@@ -1,37 +1,35 @@
 package com.example.jorge.guidin;
 
-import android.speech.tts.TextToSpeech;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import org.apache.http.client.ClientProtocolException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-
-import com.example.jorge.guidin.dialogs.DialogController;
-import com.example.jorge.guidin.http.HttpServices;
-import android.speech.RecognizerIntent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import java.util.List;
-
-
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jorge.guidin.dialogs.DialogController;
+import com.example.jorge.guidin.http.HttpServices;
 
-public class Login extends ActionBarActivity {
+import org.apache.http.client.ClientProtocolException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class Login extends ActionBarActivity implements TextToSpeech.OnInitListener{
 
     private static String username;
     private static String password;
@@ -43,6 +41,7 @@ public class Login extends ActionBarActivity {
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
     private static final int REQUEST_CHECK_TTS = 0x1000;
     private String vozReconocida;
+    private static final int MY_DATA_CHECK_CODE = 1234;
 
     final String bienvenida = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse la tecla de volumen arriba";
 
@@ -51,14 +50,11 @@ public class Login extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ttobj = new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR){
-                    ttobj.setLanguage(new Locale("ES"));
-                }
-            }
-        });
+        // Fire off an intent to check if a TTS engine is installed
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+
 
         Button registrar = (Button)findViewById(R.id.buttonRegister);
 
@@ -103,10 +99,20 @@ public class Login extends ActionBarActivity {
                 }
         );
 
-        speakText(bienvenida);
+        //speakText(bienvenida);
         superables = new String[4];
     }
 
+    /**
+     * Executed when a new TTS is instantiated. Some static text is spoken via TTS here.
+     * @param i
+     */
+    public void onInit(int i)
+    {
+        ttobj.speak(bienvenida,
+                TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
+                null);
+    }
 
     //reproduccion de voz
     @Override
@@ -120,7 +126,21 @@ public class Login extends ActionBarActivity {
 
     public void speakText(String texto){
         Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
-        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null);
+        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null,"bienvenida");
+    }
+
+
+
+    @Override
+    public void onDestroy()
+    {
+        // Don't forget to shutdown!
+        if (ttobj != null)
+        {
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onDestroy();
     }
 
     /*contro de las teclas fisicas*/
@@ -171,6 +191,23 @@ public class Login extends ActionBarActivity {
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == MY_DATA_CHECK_CODE)
+        {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)
+            {
+                // success, create the TTS instance
+                ttobj = new TextToSpeech(this,this);
+            }
+            else
+            {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(
+                        TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
 
         //Reconocimiento de voz
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
