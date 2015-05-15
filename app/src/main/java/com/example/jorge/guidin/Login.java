@@ -38,6 +38,8 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
     private static boolean admin;
     private TextToSpeech ttobj;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
+    private static final int VOICE_USUARIO= 101;
+    private static final int VOICE_PASSWORD= 201;
     private static final int REQUEST_CHECK_TTS = 0x1000;
     private String vozReconocida;
     private static final int MY_DATA_CHECK_CODE = 1234;
@@ -110,22 +112,23 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
     {
         ttobj.speak(bienvenida,
                 TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                null);
+                null,"bienvenida");
     }
 
 
     @Override
     public void onPause(){
-        if(ttobj !=null){
-            ttobj.stop();
-            ttobj.shutdown();
-        }
+//        if(ttobj !=null){
+//            ttobj.stop();
+//            ttobj.shutdown();
+//        }
         super.onPause();
     }
 
     public void speakText(String texto){
-        Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
         ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null,"bienvenida");
+        while (ttobj.isSpeaking()){}
     }
 
 
@@ -149,12 +152,13 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
         switch(keyCode){
             case KeyEvent.KEYCODE_VOLUME_UP:
                 setDiscapacidad("visual");
-                onPause();
-                speakText("Diga registro para registrarse, o diga entrar para entrar en la aplicación");
-                try {
-                    Thread.sleep(3000);
-                } catch(InterruptedException e) {}
-                reconocimientoDeVoz();
+                ttobj.speak("Diga registro para registrarse, o diga entrar para entrar en la aplicación", TextToSpeech.QUEUE_FLUSH, null,"opciones");
+                while (ttobj.isSpeaking()){}
+
+                reconocimientoDeVoz(VOICE_RECOGNITION_REQUEST_CODE);
+
+
+
                 //Toast.makeText(this, "Boton de Volumen Up presionado",Toast.LENGTH_SHORT).show();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
@@ -166,19 +170,15 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
     }
 
 
-    public void reconocimientoDeVoz() {
+    public void reconocimientoDeVoz(int codigo) {
         if(!hasVoicerec()) {
             Toast.makeText(this, "Este terminal no tiene instalado el soporte de reconocimiento de voz", Toast.LENGTH_LONG).show();
             return;
         }
         final Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        voiceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        final String miPackage = getClass().getPackage().getName();
-        voiceIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, miPackage);
         voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable ahora");
         voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        voiceIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
-        startActivityForResult(voiceIntent, VOICE_RECOGNITION_REQUEST_CODE);
+        startActivityForResult(voiceIntent, codigo);
     }
 
 
@@ -221,8 +221,13 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                     Intent i = new Intent(getActivity(), Registro.class);
                     startActivity(i);
                 }else if(vozReconocida.equals("entrar")) {
+                    ttobj.speak("Diga el nombre de usuario", TextToSpeech.QUEUE_FLUSH, null,"opciones");
                     pedirUsuarioPorVoz();
                     pedirPasswordPorVoz();
+                    TextView usuario =  (TextView)findViewById(R.id.editTextUser);
+                    username = usuario.getText().toString().toLowerCase();
+                    TextView contraseña =  (TextView)findViewById(R.id.editTextUser);
+                    password = contraseña.getText().toString().toLowerCase();
                     Toast.makeText(this,username + "," + password,Toast.LENGTH_LONG).show();
                     login(username, password);
                     recuperarDiscapacidad(username);
@@ -243,34 +248,57 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                 startActivity(installIntent);
             }
         }
+        if (requestCode == VOICE_USUARIO && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                username = matches.get(0);
+                TextView usuario =  (TextView)findViewById(R.id.editTextUser);
+                usuario.setText(username);
+            }
+        }
+
+        if (requestCode == VOICE_PASSWORD && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                password = matches.get(0);
+                TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
+                contraseña.setText(password);
+            }
+        }
+
+
     }
 
     public void pedirUsuarioPorVoz(){
-        speakText("Diga el nombre de usuario:");
+        ttobj = new TextToSpeech(this,this);
+
+        speakText("Diga el nombre de usuario");
+
+
+        while (ttobj.isSpeaking()){}
+
+        reconocimientoDeVoz(VOICE_USUARIO);
         try{
             Thread.sleep(3000);
         }catch (InterruptedException e){}
-        reconocimientoDeVoz();
-        try{
-            Thread.sleep(3000);
-        }catch (InterruptedException e){}
-        TextView usuario =  (TextView)findViewById(R.id.editTextUser);
-        usuario.setText(vozReconocida);
-        username = vozReconocida;
+        //TextView usuario =  (TextView)findViewById(R.id.editTextUser);
+        //usuario.setText(vozReconocida);
+        //username = vozReconocida;
     }
 
     public void pedirPasswordPorVoz(){
+
+        ttobj = new TextToSpeech(this,this);
         speakText("Diga su contraseña:");
+
+
+        reconocimientoDeVoz(VOICE_PASSWORD);
         try{
             Thread.sleep(3000);
         }catch (InterruptedException e){}
-        reconocimientoDeVoz();
-        try{
-            Thread.sleep(3000);
-        }catch (InterruptedException e){}
-        TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
-        contraseña.setText(vozReconocida);
-        password = vozReconocida;
+//        TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
+//        contraseña.setText(vozReconocida);
+//        password = vozReconocida;
 
     }
 
