@@ -36,6 +36,7 @@ public class Login extends ActionBarActivity {
     private static String username;
     private static String password;
     private static String[] superables;
+    private static int numSuperables;
     private static String discapacidad;
     private static boolean admin;
     private TextToSpeech ttobj;
@@ -103,6 +104,7 @@ public class Login extends ActionBarActivity {
         );
 
         speakText(bienvenida);
+        superables = new String[4];
     }
 
 
@@ -271,7 +273,9 @@ public class Login extends ActionBarActivity {
             }else{
                 //rellenar la discapacidad y los superables
                 String[] discapacidadesSuperablesAdmin = discaSupe.split(";");
+
                 superables = discapacidadesSuperablesAdmin[0].split(",");
+                numSuperables = superables.length;
                 discapacidad = discapacidadesSuperablesAdmin[1];
                 String ad = discapacidadesSuperablesAdmin[2];
                 if (ad.equals("1"))
@@ -391,6 +395,16 @@ public class Login extends ActionBarActivity {
     @SuppressWarnings("static-access")
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    @SuppressWarnings("static-access")
+    public static int getNumSuperables() {
+        return numSuperables;
+    }
+
+    @SuppressWarnings("static-access")
+    public void setNumsuperables(int num) {
+        this.numSuperables = num;
     }
 
 

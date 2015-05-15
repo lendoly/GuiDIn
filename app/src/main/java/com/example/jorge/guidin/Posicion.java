@@ -65,21 +65,21 @@ public boolean onOptionsItemSelected(MenuItem item) {
     private void comprobar(){
         if(Menu.thread.getEstado() == ThreadDatos.ESTADO_ERROR){
             pd.dismiss();
-            DialogController.createInformDialog(this, "Ha ocurido un error mientras se recuperaban los datos.");
+    DialogController.createInformDialog(this, "Ha ocurido un error mientras se recuperaban los datos.");
         }else if(Menu.thread.getEstado() == ThreadDatos.ESTADO_EJECUCION){
-            SystemClock.sleep(2000);
-            comprobar();
-        }else if(Menu.thread.getEstado() == ThreadDatos.ESTADO_EXITO){
-            //Mapa m = new Mapa(this);
-            pd.dismiss();
-            //setContentView(m);
-            if(thread == null){
-                thread = new ThreadUbicacion(this);
-                thread.setCuadrantes(cuadrantes);
-                thread.start();
-            }
+                SystemClock.sleep(2000);
+                comprobar();
+                }else if(Menu.thread.getEstado() == ThreadDatos.ESTADO_EXITO){
+                //Mapa m = new Mapa(this);
+                pd.dismiss();
+                //setContentView(m);
+                if(thread == null){
+                    thread = new ThreadUbicacion(this);
+                    thread.setCuadrantes(cuadrantes);
+                    thread.start();
+                }
+                }
         }
-    }
 
     public void refresh(double x, double y, double z, int c){
         m.setPosX(x);

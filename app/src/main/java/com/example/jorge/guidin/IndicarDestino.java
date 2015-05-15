@@ -352,6 +352,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 		/*Llamada al servidor*/
         //String origen = String.valueOf(posIni);
         //String actual = String.valueOf(posAct);
+
         String origenX=String.valueOf(obtenerCoordenadaActual().getX());
         String origenY=String.valueOf(obtenerCoordenadaActual().getY());
         String origenZ=String.valueOf(obtenerCoordenadaActual().getZ());
@@ -361,7 +362,20 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         String destino = mResult1.getText().toString();//"aula 13";//leerFicheroMemoriaInterna();
         String anguloOrientacion = String.valueOf(orientacion);
 
-        String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ};
+        String []superables = new String[Login.getNumSuperables()];
+        superables = Login.getSuperables();
+        String list_supererables="";
+        for(int i = 0; i < Login.getNumSuperables(); i++){
+            if(i == 0)
+                list_supererables += superables[i];
+            else
+                list_supererables += "," + superables[i];
+        }
+
+
+        String discapacidad = Login.getDiscapacidad();
+
+                String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ,list_supererables,discapacidad};
         Client c = new Client();
         c.execute(datos);
         try {

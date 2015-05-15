@@ -81,7 +81,7 @@ public class Registro extends ActionBarActivity {
         HttpServices service = new HttpServices();
         String list_supererables="";
         if (superables[0])
-            list_supererables += "escarelas";
+            list_supererables += "escalera";
         if (superables[1])
             if (list_supererables=="")
                 list_supererables += "ascensor";
