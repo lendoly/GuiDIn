@@ -362,10 +362,9 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         String destino = mResult1.getText().toString();//"aula 13";//leerFicheroMemoriaInterna();
         String anguloOrientacion = String.valueOf(orientacion);
 
-        String []superables = new String[Login.getNumSuperables()];
-        superables = Login.getSuperables();
+        String []superables = Login.getSuperables();
         String list_supererables="";
-        for(int i = 0; i < Login.getNumSuperables(); i++){
+        for(int i = 0; i < superables.length; i++){
             if(i == 0)
                 list_supererables += superables[i];
             else

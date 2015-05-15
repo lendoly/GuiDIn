@@ -25,7 +25,8 @@
         android:textSize="15dp"
         android:textColor="#ff687dff"
         android:layout_below="@+id/textViewTittle"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignLeft="@+id/textViewUser"
+        android:layout_alignStart="@+id/textViewUser" />
 
 
     <TextView
