@@ -191,7 +191,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
             super.onActivityResult(requestCode, resultCode, data);
         }
 
-        //Reproducción de voz
+        //ReproducciÃ³n de voz
         if (requestCode == REQUEST_CHECK_TTS) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
@@ -231,7 +231,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     private void activateWifi(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("El dispositivo WiFi está desactivado.");
+        builder.setMessage("El dispositivo WiFi estï¿½ desactivado.");
 
         builder.setPositiveButton("Activar", new android.content.DialogInterface.OnClickListener(){
             public void onClick(DialogInterface arg0, int arg1) {

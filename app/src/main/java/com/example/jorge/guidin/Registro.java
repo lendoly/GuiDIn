@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,22 +29,28 @@ import com.example.jorge.guidin.dialogs.DialogController;
 import com.example.jorge.guidin.http.HttpServices;
 
 
-public class Registro extends ActionBarActivity {
+public class Registro extends ActionBarActivity implements TextToSpeech.OnInitListener{
 
     private boolean[] superables = {false,false,false,false};
     private int discapacidad;
     private TextToSpeech ttobj;
-    final String vozInicial = "Esta en el registro, por favor si es usted una persona con discapacidad visual, diga si a continuación";
+    final String vozInicial = "Esta en el registro, por favor si es usted una persona con discapacidad visual, presione la tecla de subir volumen";
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
     private static final int REQUEST_CHECK_TTS = 0x1000;
+    private static final int MY_DATA_CHECK_CODE = 1234;
     private String vozReconocida;
-    private int origenVoz = 0;
+    private int origenVoz = 1;
     private TextView txtview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        // Fire off an intent to check if a TTS engine is installed
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 
         Button cancelar = (Button)findViewById(R.id.buttonCancel);
 
@@ -72,15 +78,44 @@ public class Registro extends ActionBarActivity {
                     }
                 }
         );
-        //speakText(vozInicial);
-        //reconocimientoDeVoz();
+    }
+
+    /**
+     * Executed when a new TTS is instantiated. Some static text is spoken via TTS here.
+     * @param i
+     */
+    public void onInit(int i)
+    {
+        ttobj.speak(vozInicial,
+                TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
+                null);
+    }
+    @Override
+    public void onPause(){
+        if(ttobj !=null){
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onPause();
     }
 
     public void speakText(String texto){
         Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
-        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null);
+        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "bienvenida");
     }
 
+
+    @Override
+    public void onDestroy()
+    {
+        // Don't forget to shutdown!
+        if (ttobj != null)
+        {
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onDestroy();
+    }
 
     public void reconocimientoDeVoz() {
         if(!hasVoicerec()) {
@@ -107,6 +142,23 @@ public class Registro extends ActionBarActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == MY_DATA_CHECK_CODE)
+        {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)
+            {
+                // success, create the TTS instance
+                ttobj = new TextToSpeech(this,this);
+            }
+            else
+            {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(
+                        TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
+
         //Reconocimiento de voz
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
             // Fill the list view with the strings the recognizer thought it
@@ -115,32 +167,32 @@ public class Registro extends ActionBarActivity {
 
             if (matches != null && matches.size() > 0) {
                 vozReconocida = matches.get(0);
-                if(origenVoz == 0) {
-                    if(vozReconocida.equals("si")) {
-                        origenVoz++;
-                        reconocimientoDeVoz();
-                    }
-                }else if(origenVoz == 1) {
-                        speakText("Diga su nombre");
-                        origenVoz++;
-                        reconocimientoDeVoz();
+                if(origenVoz == 1) {
+                    txtview =  (TextView)findViewById(R.id.registerName);
+                    txtview.setText(vozReconocida);
+                    origenVoz++;
+                    reconocimientoDeVoz();
                 }else if(origenVoz == 2) {
                     txtview =  (TextView)findViewById(R.id.registerName);
                     txtview.setText(vozReconocida);
                     speakText("Diga un nombre de usuario");
+                    while(ttobj.isSpeaking()){}
                     origenVoz++;
                     reconocimientoDeVoz();
                 }else if(origenVoz == 3) {
                     txtview =  (TextView)findViewById(R.id.registerUser);
                     txtview.setText(vozReconocida);
                     speakText("Diga una contraseña");
+                    while(ttobj.isSpeaking()){}
                     origenVoz++;
                     reconocimientoDeVoz();
                 }else if(origenVoz == 4) {
                     txtview =  (TextView)findViewById(R.id.registerPassword);
                     txtview.setText(vozReconocida);
                     speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no");
+                    while(ttobj.isSpeaking()){}
                     speakText("¿Puede subir o bajar escaleras?");
+                    while(ttobj.isSpeaking()){}
                     origenVoz++;
                     reconocimientoDeVoz();
                 }else if(origenVoz == 5) {
@@ -149,6 +201,7 @@ public class Registro extends ActionBarActivity {
                         txtview.setSelected(true);
                     }
                     speakText("¿Puede pasar a traves de puertas?");
+                    while(ttobj.isSpeaking()){}
                     origenVoz++;
                     reconocimientoDeVoz();
                 }else if(origenVoz == 6) {
@@ -157,6 +210,7 @@ public class Registro extends ActionBarActivity {
                         txtview.setSelected(true);
                     }
                     speakText("¿Puede subir en ascemsores?");
+                    while(ttobj.isSpeaking()){}
                     origenVoz++;
                     reconocimientoDeVoz();
                 }else if(origenVoz == 7) {
@@ -165,6 +219,7 @@ public class Registro extends ActionBarActivity {
                         txtview.setSelected(true);
                     }
                     speakText("¿Puede usar rampas?");
+                    while(ttobj.isSpeaking()){}
                     origenVoz++;
                     reconocimientoDeVoz();
                 }else if(origenVoz == 8) {
@@ -194,6 +249,20 @@ public class Registro extends ActionBarActivity {
                 startActivity(installIntent);
             }
         }
+    }
+
+    /*control de las teclas fisicas*/
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch(keyCode){
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                speakText("Diga su nombre");
+                while(ttobj.isSpeaking()){}
+                reconocimientoDeVoz();
+                return true;
+        }
+        return super.onKeyDown(keyCode,event);
     }
 
 

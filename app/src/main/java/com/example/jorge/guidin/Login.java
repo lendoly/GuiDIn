@@ -98,10 +98,10 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                 }
         );
 
-        //speakText(bienvenida);
         superables = new String[4];
     }
 
+    //reproduccion de voz
     /**
      * Executed when a new TTS is instantiated. Some static text is spoken via TTS here.
      * @param i
@@ -113,7 +113,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                 null);
     }
 
-    //reproduccion de voz
+
     @Override
     public void onPause(){
         if(ttobj !=null){
@@ -142,7 +142,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
         super.onDestroy();
     }
 
-    /*contro de las teclas fisicas*/
+    /*control de las teclas fisicas*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -225,6 +225,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                     pedirPasswordPorVoz();
                     Toast.makeText(this,username + "," + password,Toast.LENGTH_LONG).show();
                     login(username, password);
+                    recuperarDiscapacidad(username);
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);
@@ -353,24 +354,6 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             case R.id.Salir:
                 finish();
                 return true;
-            /*
-            case R.id.search:
-                //metodoSearch()
-                info.setText("Se presionó Buscar");
-                return true;
-            case R.id.edit:
-                //metodoEdit()
-                info.setText("Se presionó Editar");
-                return true;
-            case R.id.delete:
-                //metodoDelete()
-                info.setText("Se presionó Eliminar");
-                return true;
-            case R.id.action_settings:
-                //metodoSettings()
-                info.setText("Se presionó Ajustes");
-                return true;
-                */
             default:
                 return super.onOptionsItemSelected(item);
         }
