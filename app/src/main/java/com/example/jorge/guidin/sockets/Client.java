@@ -11,6 +11,8 @@ import java.net.UnknownHostException;
 
 import android.os.AsyncTask;
 
+import com.example.jorge.guidin.Login;
+
 /**
  * Creat
  *
@@ -24,6 +26,8 @@ public class Client extends AsyncTask<String, Integer, Long> {
     private String ruta;
     private String listaCuadrantes;
     private int cuadranteClave;
+
+
 
     @Override
     protected Long doInBackground(String... strings) {
@@ -40,6 +44,8 @@ public class Client extends AsyncTask<String, Integer, Long> {
         String posActualX = strings[5];
         String posActualY = strings[6];
         String posActualZ = strings[7];
+        String suerables = strings[8];
+        String discapacidad = strings[9];
 
 
         DataInputStream in = null;
@@ -56,6 +62,8 @@ public class Client extends AsyncTask<String, Integer, Long> {
             in = new DataInputStream(socket.getInputStream());
             out.flush();
 
+            out.writeUTF(suerables);
+            out.writeUTF(discapacidad);
             out.writeUTF(origenX);
             out.writeUTF(origenY);
             out.writeUTF(origenZ);

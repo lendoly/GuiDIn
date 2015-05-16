@@ -192,7 +192,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
             super.onActivityResult(requestCode, resultCode, data);
         }
 
-        //Reproducción de voz
+        //ReproducciÃ³n de voz
         if (requestCode == REQUEST_CHECK_TTS) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
@@ -232,7 +232,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     private void activateWifi(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("El dispositivo WiFi está desactivado.");
+        builder.setMessage("El dispositivo WiFi estï¿½ desactivado.");
 
         builder.setPositiveButton("Activar", new android.content.DialogInterface.OnClickListener(){
             public void onClick(DialogInterface arg0, int arg1) {
@@ -353,6 +353,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 		/*Llamada al servidor*/
         //String origen = String.valueOf(posIni);
         //String actual = String.valueOf(posAct);
+
         String origenX=String.valueOf(obtenerCoordenadaActual().getX());
         String origenY=String.valueOf(obtenerCoordenadaActual().getY());
         String origenZ=String.valueOf(obtenerCoordenadaActual().getZ());
@@ -362,7 +363,19 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         String destino = mResult1.getText().toString();//"aula 13";//leerFicheroMemoriaInterna();
         String anguloOrientacion = String.valueOf(orientacion);
 
-        String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ};
+        String []superables = Login.getSuperables();
+        String list_supererables="";
+        for(int i = 0; i < superables.length; i++){
+            if(i == 0)
+                list_supererables += superables[i];
+            else
+                list_supererables += "," + superables[i];
+        }
+
+
+        String discapacidad = Login.getDiscapacidad();
+
+                String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ,list_supererables,discapacidad};
         Client c = new Client();
         c.execute(datos);
         try {

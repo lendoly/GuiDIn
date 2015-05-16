@@ -139,7 +139,6 @@ public class Menu extends ListActivity{
                 startActivity(intent);
                 return true;
             case KeyEvent.KEYCODE_BACK:
-                speakText("A seleccionado cerrar sesión");
                 logout(username, password);
                 finish();
                 return true;
