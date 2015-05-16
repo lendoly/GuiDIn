@@ -33,7 +33,7 @@ import java.util.Locale;
 import android.view.Gravity;
 
 
-public class Menu extends ListActivity{
+public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
 
     public static Activity activeActivity = null;
     public static ThreadDatos thread;
@@ -44,7 +44,10 @@ public class Menu extends ListActivity{
     private String password;
     private String[] superables;
     private String discapacidad;
+    private static final int MY_DATA_CHECK_CODE = 1234;
+    private static final int REQUEST_CHECK_TTS = 0x1000;
     private boolean admin;
+    private String vozInicial = "Pulse la tecla de subir volumen para indicar un destino, pulse la tecla de bajar el volumen para posicionarle en el mapa, o pulse atras para cerrar sesión.";
 
     TextToSpeech ttobj;
 
@@ -52,6 +55,10 @@ public class Menu extends ListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Fire off an intent to check if a TTS engine is installed
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 
         if(thread == null){
             thread = createAndStartThread(); //Comienza a recuperar los datos de BD
@@ -79,20 +86,79 @@ public class Menu extends ListActivity{
         aux = new IconAndText(this, null, getString(R.string.salir), true);
         adapter.addItem(aux);
         this.setListAdapter(adapter);
+    }
 
-        ttobj=new TextToSpeech(getApplicationContext(),new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if(status != TextToSpeech.ERROR){
-                            ttobj.setLanguage(new Locale("ES"));
-                        }
-                    }
-                });
 
-        if(discapacidad.equals("visual")){
-            speakText("Pulse la tecla de subir volumen para indicar un destino, pulse la tecla de bajar el volumen para posicionarle en el mapa, o pulse la tecla atras para cerrar sesión.");
+    /**
+     * Executed when a new TTS is instantiated. Some static text is spoken via TTS here.
+     * @param i
+     */
+    public void onInit(int i)
+    {
+        if(discapacidad.equals("visual")) {
+            ttobj.speak(vozInicial,
+                    TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
+                    null);
         }
     }
+    @Override
+    public void onPause(){
+        if(ttobj !=null){
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onPause();
+    }
+
+    public void speakText(String texto){
+        Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
+        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "bienvenida");
+    }
+
+
+    @Override
+    public void onDestroy()
+    {
+        // Don't forget to shutdown!
+        if (ttobj != null)
+        {
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onDestroy();
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Reproducción de voz
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                // success, create the TTS instance
+                ttobj = new TextToSpeech(this, this);
+            } else {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(
+                        TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
+
+
+        if (requestCode == REQUEST_CHECK_TTS) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                // success, create the TTS instance
+                //mTts = new TextToSpeech(this, this);
+            } else {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
+    }
+
+
 
     public ThreadDatos createAndStartThread(){
         ThreadDatos t = new ThreadDatos(ThreadDatos.ESTADO_EJECUCION);
@@ -108,22 +174,6 @@ public class Menu extends ListActivity{
         return t;
     }
 
-    //reproduccion de voz
-    @Override
-    public void onPause(){
-        if(ttobj !=null){
-            ttobj.stop();
-            ttobj.shutdown();
-        }
-        super.onPause();
-    }
-
-    public void speakText(String texto){
-        String toSpeak = texto;
-        Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-        ttobj.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-
-    }
 
     /*contro de las teclas fisicas*/
     @Override

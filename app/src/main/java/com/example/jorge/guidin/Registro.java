@@ -33,8 +33,9 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
 
     private boolean[] superables = {false,false,false,false};
     private int discapacidad;
+    private String discapacidadStr;
     private TextToSpeech ttobj;
-    final String vozInicial = "Esta en el registro, por favor si es usted una persona con discapacidad visual, presione la tecla de subir volumen";
+    final String vozInicial = "Está en el registro, a continuacion se le pedirán los datos para completar el registro";
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
     private static final int REQUEST_CHECK_TTS = 0x1000;
     private static final int MY_DATA_CHECK_CODE = 1234;
@@ -46,6 +47,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+        discapacidadStr = Login.getDiscapacidad();
 
         // Fire off an intent to check if a TTS engine is installed
         Intent checkIntent = new Intent();
@@ -86,9 +88,15 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
      */
     public void onInit(int i)
     {
-        ttobj.speak(vozInicial,
-                TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                null);
+        if(discapacidadStr.equals("visual")) {
+            ttobj.speak(vozInicial,
+                    TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
+                    null);
+
+            speakText("Diga su nombre");
+            while(ttobj.isSpeaking()){}
+            reconocimientoDeVoz();
+        }
     }
     @Override
     public void onPause(){
@@ -250,21 +258,6 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
             }
         }
     }
-
-    /*control de las teclas fisicas*/
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        switch(keyCode){
-            case KeyEvent.KEYCODE_VOLUME_UP:
-                speakText("Diga su nombre");
-                while(ttobj.isSpeaking()){}
-                reconocimientoDeVoz();
-                return true;
-        }
-        return super.onKeyDown(keyCode,event);
-    }
-
 
     public String comprobarDatos() {
         EditText text = (EditText)findViewById(R.id.registerName);

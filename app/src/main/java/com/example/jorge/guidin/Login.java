@@ -218,6 +218,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             if (matches != null && matches.size() > 0) {
                 vozReconocida = matches.get(0);
                 if(vozReconocida.equals("registro")) {
+                    discapacidad = "visual";
                     Intent i = new Intent(getActivity(), Registro.class);
                     startActivity(i);
                 }else if(vozReconocida.equals("entrar")) {
