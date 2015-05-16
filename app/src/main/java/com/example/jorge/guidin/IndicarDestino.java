@@ -1,5 +1,6 @@
 package com.example.jorge.guidin;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -40,7 +41,6 @@ import com.example.jorge.guidin.sockets.Client;
 import com.example.jorge.guidin.wps.Coordenada;
 import com.example.jorge.guidin.wps.WPS;
 import com.example.jorge.guidin.wps.WPSException;
-import com.example.jorge.guidin.Menu;
 
 
 public class IndicarDestino extends ActionBarActivity implements OnInitListener, OnClickListener,SensorEventListener{
@@ -84,6 +84,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     ArrayList<String> listaCuadrantes;
     private Timer timerCalcularRuta;
     private boolean timerActivado;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -146,25 +146,10 @@ public class Mapa extends View{
             mPaint.setColor(Color.BLACK);
             @SuppressWarnings("unused")
             int origen = listaCuadrantes.numCuadrante(posX, posY);
-
-            //ArrayList<Integer> ruta = listaCuadrantes.rutaMasCorta(origen);
-            //rutaEscape(ruta, canvas);
-            //pintarCuadrantes(canvas);
-            //pintarFuegos(canvas);
         }
     }
 
-	/*public void pintarFuegos(Canvas canvas){
-		//obtener el conjunto de fuegos.
-		Paint mPaintAux = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mPaintAux.setColor(Color.BLUE);
-		for (int i = 0; i<fireList.size(); i++){
-			Fire f = fireList.getFire(i);
-			float posX = ((float)(f.getX()*Mapa.escalaMetro) + Mapa.POSX_0_MAPA) + x;
-			float posY = ((float)(f.getY()*Mapa.escalaMetro) + Mapa.POSY_0_MAPA) + y;
-			canvas.drawCircle(posX, posY, 7, mPaintAux);
-		}
-	}*/
+
 
     public void pintarCuadrantes(Canvas canvas){
         mPaint.setColor(Color.BLACK);
