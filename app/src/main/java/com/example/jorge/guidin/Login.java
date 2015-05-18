@@ -44,7 +44,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
     private String vozReconocida;
     private static final int MY_DATA_CHECK_CODE = 1234;
 
-    final String bienvenida = "Bienvenido a GuiDIn, por favor si es usted una persona con discapacidad visual, pulse la tecla de volumen arriba";
+    final String bienvenida = "Bienvenido a GuiDIn, si es usted una persona con discapacidad visual, pulse la tecla de volumen arriba";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,6 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                     }
                 }
         );
-
         superables = new String[4];
         discapacidad = "";
     }
@@ -109,20 +108,16 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
      * Executed when a new TTS is instantiated. Some static text is spoken via TTS here.
      * @param i
      */
-    public void onInit(int i)
-    {
+    public void onInit(int i) {
+
         ttobj.speak(bienvenida,
                 TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                null,"bienvenida");
+                null, "bienvenida");
     }
 
 
     @Override
     public void onPause(){
-//        if(ttobj !=null){
-//            ttobj.stop();
-//            ttobj.shutdown();
-//        }
         super.onPause();
     }
 
@@ -153,9 +148,8 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
         switch(keyCode){
             case KeyEvent.KEYCODE_VOLUME_UP:
                 setDiscapacidad("visual");
-                ttobj.speak("Diga registro para registrarse, o diga entrar para entrar en la aplicación", TextToSpeech.QUEUE_FLUSH, null,"opciones");
+                speakText("Diga registro para registrarse, o diga entrar para entrar en la aplicación");
                 while (ttobj.isSpeaking()){}
-
                 reconocimientoDeVoz(VOICE_RECOGNITION_REQUEST_CODE);
 
 
@@ -203,34 +197,26 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             {
                 // missing data, install it
                 Intent installIntent = new Intent();
-                installIntent.setAction(
-                        TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installIntent);
             }
+
         }
 
+        ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
         //Reconocimiento de voz
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Fill the list view with the strings the recognizer thought it
-            // could have heard
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
             // TODO hacer lo que sea con las cadenas
             if (matches != null && matches.size() > 0) {
                 vozReconocida = matches.get(0);
-                if(vozReconocida.equals("registro")) {
+                if (vozReconocida.equals("registro")) {
                     discapacidad = "visual";
                     Intent i = new Intent(getActivity(), Registro.class);
                     startActivity(i);
-                }else if(vozReconocida.equals("entrar")) {
-                    ttobj.speak("Diga el nombre de usuario", TextToSpeech.QUEUE_FLUSH, null,"opciones");
+                } else if (vozReconocida.equals("entrar")) {
                     pedirUsuarioPorVoz();
                     pedirPasswordPorVoz();
-                    TextView usuario =  (TextView)findViewById(R.id.editTextUser);
-                    username = usuario.getText().toString().toLowerCase();
-                    TextView contraseña =  (TextView)findViewById(R.id.editTextUser);
-                    password = contraseña.getText().toString().toLowerCase();
-                    Toast.makeText(this,username + "," + password,Toast.LENGTH_LONG).show();
                     login(username, password);
                     recuperarDiscapacidad(username);
                 }
@@ -239,7 +225,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
         }
 
         //Reproducción de voz
-        if (requestCode == REQUEST_CHECK_TTS) {
+        if (requestCode == REQUEST_CHECK_TTS ) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
                 //mTts = new TextToSpeech(this, this);
@@ -251,59 +237,36 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             }
         }
         if (requestCode == VOICE_USUARIO && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            vozReconocida = matches.get(0);
             if (matches != null && matches.size() > 0) {
-                username = matches.get(0);
+                username = vozReconocida;
                 TextView usuario =  (TextView)findViewById(R.id.editTextUser);
                 usuario.setText(username);
             }
+            super.onActivityResult(requestCode, resultCode, data);
         }
 
         if (requestCode == VOICE_PASSWORD && resultCode == RESULT_OK) {
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (matches != null && matches.size() > 0) {
                 password = matches.get(0);
                 TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
                 contraseña.setText(password);
             }
+            super.onActivityResult(requestCode, resultCode, data);
         }
-
-
     }
 
     public void pedirUsuarioPorVoz(){
-        ttobj = new TextToSpeech(this,this);
-
         speakText("Diga el nombre de usuario");
-
-
         while (ttobj.isSpeaking()){}
-
         reconocimientoDeVoz(VOICE_USUARIO);
-        try{
-            Thread.sleep(3000);
-        }catch (InterruptedException e){}
-        //TextView usuario =  (TextView)findViewById(R.id.editTextUser);
-        //usuario.setText(vozReconocida);
-        //username = vozReconocida;
     }
 
     public void pedirPasswordPorVoz(){
-
-        ttobj = new TextToSpeech(this,this);
         speakText("Diga su contraseña:");
-
-
+        while (ttobj.isSpeaking()){}
         reconocimientoDeVoz(VOICE_PASSWORD);
-        try{
-            Thread.sleep(3000);
-        }catch (InterruptedException e){}
-//        TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
-//        contraseña.setText(vozReconocida);
-//        password = vozReconocida;
-
     }
-
 
 
     public void login(String user, String password) {
@@ -336,7 +299,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             if(discaSupe.equals("")) {
                 DialogController.createInformDialog(this, "Usuario no registrado");
             }else if (discaSupe.equals("Servidor inaccesible")) {
-                    DialogController.createInformDialog(this, "Error en el servidor");
+                DialogController.createInformDialog(this, "Error en el servidor");
             }else{
                 //rellenar la discapacidad y los superables
                 String[] discapacidadesSuperablesAdmin = discaSupe.split(";");
@@ -364,8 +327,6 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
     }
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -387,14 +348,11 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     public Activity getActivity(){
         return this;
     }
-
-
 
     public static String getUsername() {
         return username;

@@ -97,25 +97,21 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
         if(discapacidadStr.equals("visual")) {
             ttobj.speak(vozInicial,
                     TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                    null);
-
+                    null, "bienvenida");
             speakText("Diga su nombre");
-            while(ttobj.isSpeaking()){}
             reconocimientoDeVoz(VOICE_NOMBRE);
         }
     }
+
     @Override
     public void onPause(){
-        if(ttobj !=null){
-            ttobj.stop();
-            ttobj.shutdown();
-        }
         super.onPause();
     }
 
     public void speakText(String texto){
-        Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
         ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "bienvenida");
+        while (ttobj.isSpeaking()){}
     }
 
 
@@ -156,15 +152,11 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == MY_DATA_CHECK_CODE)
-        {
-            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)
-            {
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
-                ttobj = new TextToSpeech(this,this);
-            }
-            else
-            {
+                ttobj = new TextToSpeech(this, this);
+            } else {
                 // missing data, install it
                 Intent installIntent = new Intent();
                 installIntent.setAction(
@@ -174,92 +166,85 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
         }
 
         //Reconocimiento de voz
-            // Fill the list view with the strings the recognizer thought it
-            // could have heard
-            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        // Fill the list view with the strings the recognizer thought it
+        // could have heard
+        ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-            if (matches != null && matches.size() > 0) {
-                vozReconocida = matches.get(0);
-                if (requestCode == VOICE_NOMBRE && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        txtview =  (TextView)findViewById(R.id.registerName);
-                        txtview.setText(vozReconocida);
-                        speakText("Diga un nombre de usuario");
-                        while(ttobj.isSpeaking()){}
-                        reconocimientoDeVoz(VOICE_USUARIO);
-                    }
+        if (matches != null && matches.size() > 0) {
+            vozReconocida = matches.get(0);
+            if (requestCode == VOICE_NOMBRE && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    txtview = (TextView) findViewById(R.id.registerName);
+                    txtview.setText(vozReconocida);
+                    speakText("Diga un nombre de usuario");
+                    reconocimientoDeVoz(VOICE_USUARIO);
                 }
-                if (requestCode == VOICE_USUARIO && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        txtview =  (TextView)findViewById(R.id.registerUser);
-                        txtview.setText(vozReconocida);
-                        speakText("Diga una contraseña");
-                        while(ttobj.isSpeaking()){}
-                        reconocimientoDeVoz(VOICE_PASS);
-                    }
+            }
+            if (requestCode == VOICE_USUARIO && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    txtview = (TextView) findViewById(R.id.registerUser);
+                    txtview.setText(vozReconocida);
+                    speakText("Diga una contraseña");
+                    reconocimientoDeVoz(VOICE_PASS);
                 }
-                if (requestCode == VOICE_PASS && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        txtview =  (TextView)findViewById(R.id.registerPassword);
-                        txtview.setText(vozReconocida);
-                        speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no");
-                        while(ttobj.isSpeaking()){}
-                        speakText("¿Puede subir o bajar escaleras?");
-                        while(ttobj.isSpeaking()){}
-                        reconocimientoDeVoz(VOICE_ESCALERAS);
-                    }
+            }
+            if (requestCode == VOICE_PASS && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    txtview = (TextView) findViewById(R.id.registerPassword);
+                    txtview.setText(vozReconocida);
+                    speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no");
+                    speakText("¿Puede subir o bajar escaleras?");
+                    reconocimientoDeVoz(VOICE_ESCALERAS);
                 }
-                if (requestCode == VOICE_ESCALERAS && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        if(vozReconocida.equals("si")) {
-                            txtview =  (TextView)findViewById(R.id.escaleras);
-                            txtview.setSelected(true);
-                        }
-                        speakText("¿Puede usar ascensores?");
-                        while(ttobj.isSpeaking()){}
-                        reconocimientoDeVoz(VOICE_ASCENSOR);
+            }
+            if (requestCode == VOICE_ESCALERAS && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    if (vozReconocida.equals("si")) {
+                        txtview = (TextView) findViewById(R.id.escaleras);
+                        txtview.setSelected(true);
                     }
+                    speakText("¿Puede usar ascensores?");
+                    reconocimientoDeVoz(VOICE_ASCENSOR);
                 }
-                if (requestCode == VOICE_ASCENSOR && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        txtview =  (TextView)findViewById(R.id.ascensor);
-                        txtview.setText(vozReconocida);
-                        speakText("¿Puede pasar a traves de puertas?");
-                        while(ttobj.isSpeaking()){}
-                        reconocimientoDeVoz(VOICE_PUERTA);
-                    }
+            }
+            if (requestCode == VOICE_ASCENSOR && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    txtview = (TextView) findViewById(R.id.ascensor);
+                    txtview.setText(vozReconocida);
+                    speakText("¿Puede pasar a traves de puertas?");
+                    reconocimientoDeVoz(VOICE_PUERTA);
                 }
-                if (requestCode == VOICE_PUERTA && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        txtview =  (TextView)findViewById(R.id.puerta);
-                        txtview.setText(vozReconocida);
-                        speakText("¿Puede usar rampas?");
-                        while(ttobj.isSpeaking()){}
-                        reconocimientoDeVoz(VOICE_RAMPA);
-                    }
+            }
+            if (requestCode == VOICE_PUERTA && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    txtview = (TextView) findViewById(R.id.puerta);
+                    txtview.setText(vozReconocida);
+                    speakText("¿Puede usar rampas?");
+                    reconocimientoDeVoz(VOICE_RAMPA);
                 }
-                if (requestCode == VOICE_RAMPA && resultCode == RESULT_OK) {
-                    if (matches != null && matches.size() > 0) {
-                        txtview =  (TextView)findViewById(R.id.rampa);
-                        txtview.setText(vozReconocida);
-                        discapacidad = 2;
-                        if (comprobarDatos() == "")
-                            register();
-                    }
+            }
+            if (requestCode == VOICE_RAMPA && resultCode == RESULT_OK) {
+                if (matches != null && matches.size() > 0) {
+                    txtview = (TextView) findViewById(R.id.rampa);
+                    txtview.setText(vozReconocida);
+                    discapacidad = 2;
+                    if (comprobarDatos() == "")
+                        register();
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);
 
-        //Reproducción de voz
-        if (requestCode == REQUEST_CHECK_TTS) {
-            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                // success, create the TTS instance
-                //mTts = new TextToSpeech(this, this);
-            } else {
-                // missing data, install it
-                Intent installIntent = new Intent();
-                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                startActivity(installIntent);
+            //Reproducción de voz
+            if (requestCode == REQUEST_CHECK_TTS) {
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    // success, create the TTS instance
+                    //mTts = new TextToSpeech(this, this);
+                } else {
+                    // missing data, install it
+                    Intent installIntent = new Intent();
+                    installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installIntent);
+                }
             }
         }
     }
