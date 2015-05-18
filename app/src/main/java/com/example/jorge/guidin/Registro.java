@@ -174,7 +174,6 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
         }
 
         //Reconocimiento de voz
-        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
             // Fill the list view with the strings the recognizer thought it
             // could have heard
             ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -250,7 +249,6 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);
-        }
 
         //Reproducción de voz
         if (requestCode == REQUEST_CHECK_TTS) {

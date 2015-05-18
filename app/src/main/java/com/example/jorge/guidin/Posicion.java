@@ -76,7 +76,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
                 if(thread == null){
                     thread = new ThreadUbicacion(this);
                     thread.setCuadrantes(cuadrantes);
-                    thread.start();
+                    thread.run();
                 }
                 }
         }
