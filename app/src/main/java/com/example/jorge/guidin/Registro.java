@@ -39,8 +39,14 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
     private static final int REQUEST_CHECK_TTS = 0x1000;
     private static final int MY_DATA_CHECK_CODE = 1234;
+    private static final int VOICE_NOMBRE= 101;
+    private static final int VOICE_USUARIO= 102;
+    private static final int VOICE_PASS= 103;
+    private static final int VOICE_ESCALERAS= 104;
+    private static final int VOICE_ASCENSOR= 105;
+    private static final int VOICE_PUERTA= 106;
+    private static final int VOICE_RAMPA= 107;
     private String vozReconocida;
-    private int origenVoz = 1;
     private TextView txtview;
 
     @Override
@@ -95,7 +101,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
 
             speakText("Diga su nombre");
             while(ttobj.isSpeaking()){}
-            reconocimientoDeVoz();
+            reconocimientoDeVoz(VOICE_NOMBRE);
         }
     }
     @Override
@@ -125,7 +131,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
         super.onDestroy();
     }
 
-    public void reconocimientoDeVoz() {
+    public void reconocimientoDeVoz(int codigo) {
         if(!hasVoicerec()) {
             Toast.makeText(this, "Este terminal no tiene instalado el soporte de reconocimiento de voz", Toast.LENGTH_LONG).show();
             return;
@@ -137,7 +143,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
         voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable ahora");
         voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         voiceIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
-        startActivityForResult(voiceIntent, VOICE_RECOGNITION_REQUEST_CODE);
+        startActivityForResult(voiceIntent, codigo);
     }
 
 
@@ -175,71 +181,72 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
 
             if (matches != null && matches.size() > 0) {
                 vozReconocida = matches.get(0);
-                if(origenVoz == 1) {
-                    txtview =  (TextView)findViewById(R.id.registerName);
-                    txtview.setText(vozReconocida);
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 2) {
-                    txtview =  (TextView)findViewById(R.id.registerName);
-                    txtview.setText(vozReconocida);
-                    speakText("Diga un nombre de usuario");
-                    while(ttobj.isSpeaking()){}
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 3) {
-                    txtview =  (TextView)findViewById(R.id.registerUser);
-                    txtview.setText(vozReconocida);
-                    speakText("Diga una contraseña");
-                    while(ttobj.isSpeaking()){}
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 4) {
-                    txtview =  (TextView)findViewById(R.id.registerPassword);
-                    txtview.setText(vozReconocida);
-                    speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no");
-                    while(ttobj.isSpeaking()){}
-                    speakText("¿Puede subir o bajar escaleras?");
-                    while(ttobj.isSpeaking()){}
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 5) {
-                    if(vozReconocida.equals("si")) {
-                        txtview =  (TextView)findViewById(R.id.escaleras);
-                        txtview.setSelected(true);
+                if (requestCode == VOICE_NOMBRE && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        txtview =  (TextView)findViewById(R.id.registerName);
+                        txtview.setText(vozReconocida);
+                        speakText("Diga un nombre de usuario");
+                        while(ttobj.isSpeaking()){}
+                        reconocimientoDeVoz(VOICE_USUARIO);
                     }
-                    speakText("¿Puede pasar a traves de puertas?");
-                    while(ttobj.isSpeaking()){}
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 6) {
-                    if(vozReconocida.equals("si")) {
-                        txtview = (TextView) findViewById(R.id.escaleras);
-                        txtview.setSelected(true);
+                }
+                if (requestCode == VOICE_USUARIO && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        txtview =  (TextView)findViewById(R.id.registerUser);
+                        txtview.setText(vozReconocida);
+                        speakText("Diga una contraseña");
+                        while(ttobj.isSpeaking()){}
+                        reconocimientoDeVoz(VOICE_PASS);
                     }
-                    speakText("¿Puede subir en ascemsores?");
-                    while(ttobj.isSpeaking()){}
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 7) {
-                    if(vozReconocida.equals("si")) {
-                        txtview =  (TextView)findViewById(R.id.escaleras);
-                        txtview.setSelected(true);
+                }
+                if (requestCode == VOICE_PASS && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        txtview =  (TextView)findViewById(R.id.registerPassword);
+                        txtview.setText(vozReconocida);
+                        speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no");
+                        while(ttobj.isSpeaking()){}
+                        speakText("¿Puede subir o bajar escaleras?");
+                        while(ttobj.isSpeaking()){}
+                        reconocimientoDeVoz(VOICE_ESCALERAS);
                     }
-                    speakText("¿Puede usar rampas?");
-                    while(ttobj.isSpeaking()){}
-                    origenVoz++;
-                    reconocimientoDeVoz();
-                }else if(origenVoz == 8) {
-                    if(vozReconocida.equals("si")) {
-                        txtview =  (TextView)findViewById(R.id.escaleras);
-                        txtview.setSelected(true);
+                }
+                if (requestCode == VOICE_ESCALERAS && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        if(vozReconocida.equals("si")) {
+                            txtview =  (TextView)findViewById(R.id.escaleras);
+                            txtview.setSelected(true);
+                        }
+                        speakText("¿Puede usar ascensores?");
+                        while(ttobj.isSpeaking()){}
+                        reconocimientoDeVoz(VOICE_ASCENSOR);
                     }
-                    txtview =  (TextView)findViewById(R.id.registerUser);
-                    txtview.setText(vozReconocida);
-                    discapacidad = 2;
-                    if (comprobarDatos() == "")
-                        register();
+                }
+                if (requestCode == VOICE_ASCENSOR && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        txtview =  (TextView)findViewById(R.id.ascensor);
+                        txtview.setText(vozReconocida);
+                        speakText("¿Puede pasar a traves de puertas?");
+                        while(ttobj.isSpeaking()){}
+                        reconocimientoDeVoz(VOICE_PUERTA);
+                    }
+                }
+                if (requestCode == VOICE_PUERTA && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        txtview =  (TextView)findViewById(R.id.puerta);
+                        txtview.setText(vozReconocida);
+                        speakText("¿Puede usar rampas?");
+                        while(ttobj.isSpeaking()){}
+                        reconocimientoDeVoz(VOICE_RAMPA);
+                    }
+                }
+                if (requestCode == VOICE_RAMPA && resultCode == RESULT_OK) {
+                    if (matches != null && matches.size() > 0) {
+                        txtview =  (TextView)findViewById(R.id.rampa);
+                        txtview.setText(vozReconocida);
+                        discapacidad = 2;
+                        if (comprobarDatos() == "")
+                            register();
+                    }
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);

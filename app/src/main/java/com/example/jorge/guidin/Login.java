@@ -101,6 +101,7 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
         );
 
         superables = new String[4];
+        discapacidad = "";
     }
 
     //reproduccion de voz
