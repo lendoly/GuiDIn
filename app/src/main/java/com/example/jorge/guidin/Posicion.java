@@ -5,8 +5,6 @@ import android.view.MenuItem;
 
 import android.app.ProgressDialog;
 import android.os.SystemClock;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.example.jorge.guidin.dialogs.DialogController;
@@ -46,7 +44,7 @@ public void onCreate(final Bundle savedInstanceState) {
             comprobar();
         }
     };
-    comprobar.start();
+    comprobar.run();
 }
 
 

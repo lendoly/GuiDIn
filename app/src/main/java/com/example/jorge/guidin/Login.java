@@ -171,8 +171,12 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
             return;
         }
         final Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        voiceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        final String miPackage = getClass().getPackage().getName();
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, miPackage);
         voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable ahora");
         voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         startActivityForResult(voiceIntent, codigo);
     }
 
@@ -258,13 +262,11 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
 
     public void pedirUsuarioPorVoz(){
         speakText("Diga el nombre de usuario");
-        while (ttobj.isSpeaking()){}
         reconocimientoDeVoz(VOICE_USUARIO);
     }
 
     public void pedirPasswordPorVoz(){
         speakText("Diga su contraseña:");
-        while (ttobj.isSpeaking()){}
         reconocimientoDeVoz(VOICE_PASSWORD);
     }
 

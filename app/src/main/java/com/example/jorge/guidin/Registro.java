@@ -76,7 +76,6 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                     public void onClick(View view){
                         String s = comprobarDatos();
                         if(s.equals("")){
-
                             register();
                             finish();
 
@@ -98,6 +97,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
             ttobj.speak(vozInicial,
                     TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
                     null, "bienvenida");
+            while (ttobj.isSpeaking()){}
             speakText("Diga su nombre");
             reconocimientoDeVoz(VOICE_NOMBRE);
         }
@@ -192,16 +192,16 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                 if (matches != null && matches.size() > 0) {
                     txtview = (TextView) findViewById(R.id.registerPassword);
                     txtview.setText(vozReconocida);
-                    speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no");
-                    speakText("¿Puede subir o bajar escaleras?");
+                    speakText("Ahora le preguntaremos sobre los elementos que puede superar para ofrecer una mejor guía. Responda si o no.  ¿Puede subir o bajar escaleras?");
                     reconocimientoDeVoz(VOICE_ESCALERAS);
                 }
             }
             if (requestCode == VOICE_ESCALERAS && resultCode == RESULT_OK) {
                 if (matches != null && matches.size() > 0) {
-                    if (vozReconocida.equals("si")) {
+                    if (vozReconocida.equals("Si")) {
                         txtview = (TextView) findViewById(R.id.escaleras);
                         txtview.setSelected(true);
+                        superables[0] = true;
                     }
                     speakText("¿Puede usar ascensores?");
                     reconocimientoDeVoz(VOICE_ASCENSOR);
@@ -209,24 +209,33 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
             }
             if (requestCode == VOICE_ASCENSOR && resultCode == RESULT_OK) {
                 if (matches != null && matches.size() > 0) {
-                    txtview = (TextView) findViewById(R.id.ascensor);
-                    txtview.setText(vozReconocida);
+                    if (vozReconocida.equals("Si")) {
+                        txtview = (TextView) findViewById(R.id.ascensor);
+                        txtview.setSelected(true);
+                        superables[1] = true;
+                    }
                     speakText("¿Puede pasar a traves de puertas?");
                     reconocimientoDeVoz(VOICE_PUERTA);
                 }
             }
             if (requestCode == VOICE_PUERTA && resultCode == RESULT_OK) {
                 if (matches != null && matches.size() > 0) {
-                    txtview = (TextView) findViewById(R.id.puerta);
-                    txtview.setText(vozReconocida);
+                    if (vozReconocida.equals("Si")) {
+                        txtview = (TextView) findViewById(R.id.puerta);
+                        txtview.setSelected(true);
+                        superables[2] = true;
+                    }
                     speakText("¿Puede usar rampas?");
                     reconocimientoDeVoz(VOICE_RAMPA);
                 }
             }
             if (requestCode == VOICE_RAMPA && resultCode == RESULT_OK) {
                 if (matches != null && matches.size() > 0) {
-                    txtview = (TextView) findViewById(R.id.rampa);
-                    txtview.setText(vozReconocida);
+                    if (vozReconocida.equals("Si")) {
+                        txtview = (TextView) findViewById(R.id.rampa);
+                        txtview.setSelected(true);
+                        superables[3] = true;
+                    }
                     discapacidad = 2;
                     if (comprobarDatos() == "")
                         register();
