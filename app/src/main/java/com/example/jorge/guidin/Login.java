@@ -219,10 +219,8 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                     Intent i = new Intent(getActivity(), Registro.class);
                     startActivity(i);
                 } else if (vozReconocida.equals("entrar")) {
-                    pedirUsuarioPorVoz();
-                    pedirPasswordPorVoz();
-                    login(username, password);
-                    recuperarDiscapacidad(username);
+                    speakText("Diga el nombre de usuario");
+                    reconocimientoDeVoz(VOICE_USUARIO);
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);
@@ -246,6 +244,8 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                 username = vozReconocida;
                 TextView usuario =  (TextView)findViewById(R.id.editTextUser);
                 usuario.setText(username);
+                speakText("Diga su contraseña:");
+                reconocimientoDeVoz(VOICE_PASSWORD);
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -255,20 +255,13 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
                 password = matches.get(0);
                 TextView contraseña =  (TextView)findViewById(R.id.editTextPassword);
                 contraseña.setText(password);
+                login(username, password);
+                recuperarDiscapacidad(username);
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    public void pedirUsuarioPorVoz(){
-        speakText("Diga el nombre de usuario");
-        reconocimientoDeVoz(VOICE_USUARIO);
-    }
-
-    public void pedirPasswordPorVoz(){
-        speakText("Diga su contraseña:");
-        reconocimientoDeVoz(VOICE_PASSWORD);
-    }
 
 
     public void login(String user, String password) {

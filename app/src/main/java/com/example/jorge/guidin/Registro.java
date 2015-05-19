@@ -237,8 +237,11 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                         superables[3] = true;
                     }
                     discapacidad = 2;
-                    if (comprobarDatos() == "")
+                    if (comprobarDatos() == "") {
                         register();
+                        speakText("Registro completado");
+                        finish();
+                    }
                 }
             }
             super.onActivityResult(requestCode, resultCode, data);

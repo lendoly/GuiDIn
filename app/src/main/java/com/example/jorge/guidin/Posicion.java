@@ -44,7 +44,7 @@ public void onCreate(final Bundle savedInstanceState) {
             comprobar();
         }
     };
-    comprobar.run();
+    comprobar.start();
 }
 
 
