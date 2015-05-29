@@ -135,8 +135,6 @@ public class Acelerometro extends ActionBarActivity implements SensorEventListen
                 //giroSobreY = SensorManager.getInclination(I);
                 giroY.setText("" + giroSobreY);
                 giroSobreZ = (float) Math.toDegrees(result[0]);
-
-
                 giroZ.setText("" + giroSobreZ);
             }
 

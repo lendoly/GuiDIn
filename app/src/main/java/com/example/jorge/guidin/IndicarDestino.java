@@ -418,6 +418,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         String actualY=String.valueOf(obtenerCoordenadaActual().getY());
         String actualZ=String.valueOf(obtenerCoordenadaActual().getZ());
         String destino = mResult1.getText().toString();//"aula 13";
+
         String anguloOrientacion = String.valueOf(orientacion);
 
         String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ,list_supererables,discapacidad};
@@ -437,7 +438,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         listaCuadrantesString=c.getCuadrantes();
         listaCuadrantes=new ArrayList<String>(Arrays.asList(listaCuadrantesString.split(" ")));
         cuadranteClave = c.getCuadranteClave();
-        cuadranteActual=Integer.parseInt(listaCuadrantes.get(0));
+        cuadranteActual=Integer.parseInt(listaCuadrantes.get(listaCuadrantes.size()-1));
         //cuadranteActual=listaCuadrantes.indexOf(0);
         String aux = mResult2.getText().toString();
         mResult2.setText(ruta);
