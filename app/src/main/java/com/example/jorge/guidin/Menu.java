@@ -95,11 +95,11 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
      */
     public void onInit(int i)
     {
-        if(discapacidad.equals("visual")) {
+       /* if(discapacidad.equals("visual")) {
             ttobj.speak(vozInicial,
                     TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
                     null);
-        }
+        }*/
     }
     @Override
     public void onPause(){

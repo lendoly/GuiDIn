@@ -11,18 +11,20 @@
     android:layout_height="wrap_content"
     android:text="@string/app_name"
     android:id="@+id/textViewTittle"
-    android:textSize="50dp"
-    android:layout_marginTop="40dp"
+    android:textSize="60dp"
+    android:layout_marginTop="20dp"
     android:textColor="#ff687dff"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
         android:text="@string/app_longname"
         android:id="@+id/textViewSubTittle"
-        android:textSize="15dp"
+        android:textSize="22dp"
+        android:gravity="center"
         android:textColor="#ff687dff"
         android:layout_below="@+id/textViewTittle"
         android:layout_alignLeft="@+id/textViewUser"
@@ -35,10 +37,9 @@
         android:text="@string/usuario"
         android:id="@+id/textViewUser"
         android:textSize="25dp"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/textViewTittle"
-        android:layout_toLeftOf="@+id/textViewTittle"
-        android:layout_toStartOf="@+id/textViewTittle" />
+        android:width="150dp"
+        android:layout_marginTop="85dp"
+        android:layout_below="@+id/textViewTittle" />
 
     <TextView
         android:layout_width="wrap_content"

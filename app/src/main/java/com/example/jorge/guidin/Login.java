@@ -110,9 +110,9 @@ public class Login extends ActionBarActivity implements TextToSpeech.OnInitListe
      */
     public void onInit(int i) {
 
-        ttobj.speak(bienvenida,
+       /* ttobj.speak(bienvenida,
                 TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                null, "bienvenida");
+                null, "bienvenida");*/
     }
 
 

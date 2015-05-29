@@ -1,6 +1,5 @@
 package com.example.jorge.guidin;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -45,8 +44,11 @@ import com.example.jorge.guidin.wps.WPSException;
 
 public class IndicarDestino extends ActionBarActivity implements OnInitListener, OnClickListener,SensorEventListener{
 
+    private TextToSpeech ttobj;
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
+    private static final int VOICE_DESTINO= 101;
     private static final int REQUEST_CHECK_TTS = 0x1000;
+    private static final int MY_DATA_CHECK_CODE = 1234;
 
     private int posIni = -1;
     private int posAct = -1;
@@ -55,7 +57,7 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
     private ListaCuadrantes cuadrantes;
     private WifiManager manager;
-    private TextToSpeech mTts;
+    //private TextToSpeech mTts;
     private SensorEventListener giroscopio;
     private SensorManager mSensorManager;
 
@@ -84,6 +86,10 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     ArrayList<String> listaCuadrantes;
     private Timer timerCalcularRuta;
     private boolean timerActivado;
+    private String []superables;
+    private String list_supererables;
+    private String discapacidad;
+    final String inicio = "Ahora diga el destino al que quiere llegar";
 
 
     @Override
@@ -92,6 +98,11 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         setContentView(R.layout.activity_indicar_destino);
 
         Menu.activeActivity = this;
+
+        // Fire off an intent to check if a TTS engine is installed
+        Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 
         mResult1 = (EditText) findViewById(R.id.editText1);
         mResult2 = (TextView) findViewById(R.id.textView2);
@@ -120,6 +131,17 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
         checkTTS();
 
+        superables = Login.getSuperables();
+        list_supererables="";
+        for(int i = 0; i < superables.length; i++){
+            if(i == 0)
+                list_supererables += superables[i];
+            else
+                list_supererables += "," + superables[i];
+        }
+
+        discapacidad = Login.getDiscapacidad();
+
 
         btVoz = (Button) findViewById(R.id.bVoz);
 
@@ -135,6 +157,59 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
         });
     }
+
+
+    public void onInit(int i) {
+        if(discapacidad.equals("visual")) {
+            speakText(inicio);
+            reconocimientoDeVoz(VOICE_DESTINO);
+        }
+    }
+
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    public void speakText(String texto){
+        //Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
+        ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null,"bienvenida");
+        while (ttobj.isSpeaking()){}
+    }
+
+
+
+    @Override
+    public void onDestroy()
+    {
+        mSensorManager.unregisterListener(giroscopio);
+        mSensorManager.unregisterListener(this);
+        super.onDestroy();
+        // Don't forget to shutdown!
+        if (ttobj != null)
+        {
+            ttobj.stop();
+            ttobj.shutdown();
+        }
+        super.onDestroy();
+    }
+
+    public void reconocimientoDeVoz(int codigo) {
+        if(!hasVoicerec()) {
+            Toast.makeText(this, "Este terminal no tiene instalado el soporte de reconocimiento de voz", Toast.LENGTH_LONG).show();
+            return;
+        }
+        final Intent voiceIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        voiceIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        final String miPackage = getClass().getPackage().getName();
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, miPackage);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Hable ahora");
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        voiceIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+        startActivityForResult(voiceIntent, codigo);
+    }
+
 
     public void onButtonClick(View v) {
         if(!hasVoicerec()) {
@@ -172,37 +247,40 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //Reconocimiento de voz
-        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE
-                && resultCode == RESULT_OK) {
-            // Fill the list view with the strings the recognizer thought it
-            // could have heard
-            ArrayList<String> matches = data
-                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
-            // TODO hacer lo que sea con las cadenas
-            if (matches != null && matches.size() > 0) {
-                mResult1.setText(matches.get(0));
-                destinoInsertado = true;
-
-                consultarRutaServidor();
-                calculaRuta();
-            } else {
-                mResult1.setText("Sin destino");
+        if (requestCode == MY_DATA_CHECK_CODE){
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS){
+                // success, create the TTS instance
+                ttobj = new TextToSpeech(this,this);
             }
-            super.onActivityResult(requestCode, resultCode, data);
+            else{
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
         }
+
+        ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
         //Reproducción de voz
         if (requestCode == REQUEST_CHECK_TTS) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
-                mTts = new TextToSpeech(this, this);
+                //ttobj = new TextToSpeech(this, this);
             } else {
                 // missing data, install it
                 Intent installIntent = new Intent();
                 installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                 startActivity(installIntent);
             }
+        }
+        if ((requestCode == VOICE_DESTINO) && (resultCode == RESULT_OK)) {
+            //reproducir voz con la ruta
+            mResult1.setText(matches.get(0));
+            destinoInsertado = true;
+            consultarRutaServidor();
+            calculaRuta();
+
         }
     }
 
@@ -211,21 +289,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         // mEditText.setText(String.valueOf(posIni));
     }
 
-
-    /**
-     * Init tts
-     */
-    public void onInit(int status) {
-        mTts.setLanguage(new Locale("spa"));
-    }
-
-    @Override
-    protected void onDestroy() {
-        mSensorManager.unregisterListener(giroscopio);
-        mSensorManager.unregisterListener(this);
-        mTts.shutdown();
-        super.onDestroy();
-    }
 
     public void onSensorChanged(SensorEvent event) {}
 
@@ -284,7 +347,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         // TODO Auto-generated method stub
     }
 
-
     public void calculaRuta(){
 
         if (destinoInsertado){
@@ -314,13 +376,8 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
                 consultarRutaServidor();
                 return;
             }
-
-
             return;
-
         }
-
-
     }
 
     private void actualizarSiguientePaso() {
@@ -360,22 +417,10 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         String actualX=String.valueOf(obtenerCoordenadaActual().getX());
         String actualY=String.valueOf(obtenerCoordenadaActual().getY());
         String actualZ=String.valueOf(obtenerCoordenadaActual().getZ());
-        String destino = mResult1.getText().toString();//"aula 13";//leerFicheroMemoriaInterna();
+        String destino = mResult1.getText().toString();//"aula 13";
         String anguloOrientacion = String.valueOf(orientacion);
 
-        String []superables = Login.getSuperables();
-        String list_supererables="";
-        for(int i = 0; i < superables.length; i++){
-            if(i == 0)
-                list_supererables += superables[i];
-            else
-                list_supererables += "," + superables[i];
-        }
-
-
-        String discapacidad = Login.getDiscapacidad();
-
-                String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ,list_supererables,discapacidad};
+        String []datos = {origenX,origenY,origenZ, destino, anguloOrientacion,actualX,actualY,actualZ,list_supererables,discapacidad};
         Client c = new Client();
         c.execute(datos);
         try {
@@ -394,10 +439,13 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         cuadranteClave = c.getCuadranteClave();
         cuadranteActual=Integer.parseInt(listaCuadrantes.get(0));
         //cuadranteActual=listaCuadrantes.indexOf(0);
-        String aux=mResult2.getText().toString();
+        String aux = mResult2.getText().toString();
         mResult2.setText(ruta);
         if(!aux.equals(ruta)){
-            mTts.speak(ruta, TextToSpeech.QUEUE_FLUSH, null);
+            if(discapacidad.equals("visual")) {
+                speakText(ruta);
+                //mTts.speak(ruta, TextToSpeech.QUEUE_FLUSH, null);
+            }
         }
 
     }
