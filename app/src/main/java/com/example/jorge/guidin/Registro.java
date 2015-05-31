@@ -368,6 +368,22 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                     discapacidad = 0;
                 break;
         }
+        //en caso de que se seleccione que no hay discapacidad se asume que puede pasar por los superables
+        if (discapacidad == 0){
+            superables[0] = true;
+            superables[1] = true;
+            superables[2] = true;
+            superables[3] = true;
+            txtview = (TextView) findViewById(R.id.ascensor);
+            txtview.setSelected(true);
+            txtview = (TextView) findViewById(R.id.puerta);
+            txtview.setSelected(true);
+            txtview = (TextView) findViewById(R.id.rampa);
+            txtview.setSelected(true);
+            txtview = (TextView) findViewById(R.id.escaleras);
+            txtview.setSelected(true);
+        }
+
     }
 
 

@@ -79,6 +79,8 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
     //Atributo para obtener la ruta que me devuelva el servidor
     private String ruta;
+    private String []rutaArray;
+    private int contador;
     private String siguientePaso;
     private int cuadranteClave;
     private int cuadranteActual;
@@ -141,6 +143,8 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         }
 
         discapacidad = Login.getDiscapacidad();
+        cuadranteClave = -1;
+        contador = 0;
 
 
         btVoz = (Button) findViewById(R.id.bVoz);
@@ -434,19 +438,53 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
             e.printStackTrace();
         }
 
-        ruta = c.getRuta();
-        listaCuadrantesString=c.getCuadrantes();
-        listaCuadrantes=new ArrayList<String>(Arrays.asList(listaCuadrantesString.split(" ")));
-        cuadranteClave = c.getCuadranteClave();
+
+        listaCuadrantesString = c.getCuadrantes();
+        listaCuadrantes = new ArrayList<String>(Arrays.asList(listaCuadrantesString.split(" ")));
+        int cuadranteClaveAux = c.getCuadranteClave();
         cuadranteActual=Integer.parseInt(listaCuadrantes.get(listaCuadrantes.size()-1));
-        //cuadranteActual=listaCuadrantes.indexOf(0);
-        String aux = mResult2.getText().toString();
-        mResult2.setText(ruta);
-        if(!aux.equals(ruta)){
-            if(discapacidad.equals("visual")) {
-                speakText(ruta);
-                //mTts.speak(ruta, TextToSpeech.QUEUE_FLUSH, null);
+        String rutaAux = c.getRuta();
+
+        if (!rutaAux.equals("Recorrido finalizado.")) {
+            if ((cuadranteClave == cuadranteActual) || (cuadranteClave == -1)) {
+                if (cuadranteClave == -1) {
+                    cuadranteClave = cuadranteClaveAux;
+                    ruta = rutaAux;
+                    rutaArray = ruta.split(".");
+                    if (discapacidad.equals("visual")) {
+                        speakText(rutaArray[0]);
+                    } else {
+                        mResult2.setText(rutaArray[0]);
+                    }
+                } else {
+                    if (discapacidad.equals("visual")) {
+                        speakText(rutaArray[1]);
+                    } else {
+                        mResult2.setText(rutaArray[1]);
+                    }
+                    ruta = rutaAux;
+                    rutaArray = ruta.split(".");
+                    cuadranteClave = cuadranteClaveAux;
+                }
+            }else{
+                if(contador == 5) {
+                    contador = 0;
+                    if (discapacidad.equals("visual")) {
+                        speakText(rutaArray[0]);
+                    } else {
+                        mResult2.setText(rutaArray[0]);
+                    }
+                }
+                contador++;
             }
+
+        }else {
+            if (discapacidad.equals("visual")) {
+                speakText("Ha llegado a su destino");
+            } else {
+                mResult2.setText("Ha llegado a su destino");
+            }
+            finish();
         }
 
     }
