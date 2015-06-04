@@ -62,6 +62,7 @@ public class Client extends AsyncTask<String, Integer, Long> {
             in = new DataInputStream(socket.getInputStream());
             out.flush();
 
+            /*
             out.writeUTF(suerables);
             out.writeUTF(discapacidad);
             out.writeUTF(origenX);
@@ -72,6 +73,17 @@ public class Client extends AsyncTask<String, Integer, Long> {
             out.writeUTF(posActualX);
             out.writeUTF(posActualY);
             out.writeUTF(posActualZ);
+                                    */
+            out.writeUTF(suerables);
+            out.writeUTF(discapacidad);
+            out.writeUTF("18");
+            out.writeUTF("14.5");
+            out.writeUTF("4");
+            out.writeUTF("sala de juntas");
+            out.writeUTF(orientacion);
+            out.writeUTF("18");
+            out.writeUTF("14.5");
+            out.writeUTF("4");
 
             listaCuadrantes=in.readUTF();
             ruta  = in.readUTF();

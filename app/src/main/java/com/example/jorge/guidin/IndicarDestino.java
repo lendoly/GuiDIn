@@ -471,7 +471,20 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
                     if (discapacidad.equals("visual")) {
                         speakText(rutaArray[0]);
                     } else {
-                        mResult2.setText(rutaArray[0]);
+                        try {
+                            final String[] finalRutaArray = rutaArray;
+                            //Utilizado para poder escribir en el view desde otros hilos
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mResult2.setText(finalRutaArray[0]);
+                                }
+                            });
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            System.out.print(e);
+                        }
+
                     }
                 }
                 contador++;
