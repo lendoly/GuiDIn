@@ -443,7 +443,9 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         int cuadranteClaveAux = c.getCuadranteClave();
         cuadranteActual=Integer.parseInt(listaCuadrantes.get(1));
         String rutaAux = c.getRuta();
-        String []rutaArray = {"Sigue recto","gira a la derecha"};//rutaAux.split(".");
+        ArrayList<String> rutaList;
+        rutaList =  new ArrayList<String>(Arrays.asList(rutaAux.split("\\.")));
+        //String []rutaArray = r.split(".");//rutaAux.split(".");
         if (!rutaAux.equals("Recorrido finalizado.")) {
             if ((cuadranteClave == cuadranteActual) || (cuadranteClave == -1)) {
                 if (cuadranteClave == -1) {
@@ -451,33 +453,33 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
                     ruta = rutaAux;
                     //rutaArray = ruta.split(".");
                     if (discapacidad.equals("visual")) {
-                        speakText(rutaArray[0]);
+                        speakText(rutaList.get(0));
                     } else {
-                        mResult2.setText(rutaArray[0]);
+                        mResult2.setText(rutaList.get(0));
                     }
                 } else {
                     if (discapacidad.equals("visual")) {
-                        speakText(rutaArray[1]);
+                        speakText(rutaList.get(1));
                     } else {
-                        mResult2.setText(rutaArray[1]);
+                        mResult2.setText(rutaList.get(1));
                     }
                     ruta = rutaAux;
-                    rutaArray = ruta.split(".");
+                    rutaList =  new ArrayList<String>(Arrays.asList(rutaAux.split(".")));
                     cuadranteClave = cuadranteClaveAux;
                 }
             }else{
                 if(contador == 5) {
                     contador = 0;
                     if (discapacidad.equals("visual")) {
-                        speakText(rutaArray[0]);
+                        speakText(rutaList.get(0));
                     } else {
                         try {
-                            final String[] finalRutaArray = rutaArray;
+                            final ArrayList<String> finalRutaArray = rutaList;
                             //Utilizado para poder escribir en el view desde otros hilos
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mResult2.setText(finalRutaArray[0]);
+                                    mResult2.setText(finalRutaArray.get(0));
                                 }
                             });
                         }catch(Exception e){
