@@ -79,7 +79,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
     //Atributo para obtener la ruta que me devuelva el servidor
     private String ruta;
-    private String []rutaArray;
     private int contador;
     private String siguientePaso;
     private int cuadranteClave;
@@ -442,15 +441,15 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         listaCuadrantesString = c.getCuadrantes();
         listaCuadrantes = new ArrayList<String>(Arrays.asList(listaCuadrantesString.split(" ")));
         int cuadranteClaveAux = c.getCuadranteClave();
-        cuadranteActual=Integer.parseInt(listaCuadrantes.get(listaCuadrantes.size()-1));
+        cuadranteActual=Integer.parseInt(listaCuadrantes.get(1));
         String rutaAux = c.getRuta();
-
+        String []rutaArray = {"Sigue recto","gira a la derecha"};//rutaAux.split(".");
         if (!rutaAux.equals("Recorrido finalizado.")) {
             if ((cuadranteClave == cuadranteActual) || (cuadranteClave == -1)) {
                 if (cuadranteClave == -1) {
                     cuadranteClave = cuadranteClaveAux;
                     ruta = rutaAux;
-                    rutaArray = ruta.split(".");
+                    //rutaArray = ruta.split(".");
                     if (discapacidad.equals("visual")) {
                         speakText(rutaArray[0]);
                     } else {
