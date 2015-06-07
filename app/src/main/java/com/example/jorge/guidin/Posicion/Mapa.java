@@ -17,8 +17,6 @@ import com.example.jorge.guidin.rutas.Arista;
 import com.example.jorge.guidin.rutas.Cuadrante;
 import com.example.jorge.guidin.rutas.ListaCuadrantes;
 
-
-
 public class Mapa extends View{
 
     private float x;
@@ -38,6 +36,8 @@ public class Mapa extends View{
      * Coordenada X dentro del mapa que es en la BD la coordenadaX = 0;
      */
     public static final int POSX_0_MAPA = 42;
+    public static final int POSX_ORIGEN_REAL=2100;
+    public static final int POSY_ORIGEN_REAL=1050;
 
     /**
      * Coordenada Y dentro del mapa que es en la BD la coordenadaY = 0;
@@ -47,7 +47,9 @@ public class Mapa extends View{
     /**
      * Distancia en píxeles en el mapa de un metro en la realidad
      */
-    public static final double escalaMetro = 10.904225532;
+    //public static final double escalaMetro = 10.904225532;
+    public static final double escalaMetro = 45;
+    //public static final double escalaMetro = 1;
 
     public Mapa(Activity father) {
         super(father);
@@ -129,6 +131,7 @@ public class Mapa extends View{
             canvas.drawText("y: INACCESIBLE" , 20, 200, mPaint);
             canvas.drawText("z: INACCESIBLE" , 20, 220, mPaint);
             canvas.drawText("Cuadrante: INACCESIBLE", 20, 240, mPaint);
+
         }else{
 		/*
 			canvas.drawText("x:" + posX , 30, 230, mPaint);
@@ -142,7 +145,11 @@ public class Mapa extends View{
             canvas.drawText("Cuadrante: " + cuadrante,20, 240, mPaint);
             mPaint.setColor(Color.RED);
 
-            canvas.drawCircle(((float)(posX*Mapa.escalaMetro) + Mapa.POSX_0_MAPA) + x, ((float)(posY*Mapa.escalaMetro) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(posX*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (posY*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            /*canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float) ((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);*/
             mPaint.setColor(Color.BLACK);
             @SuppressWarnings("unused")
             int origen = listaCuadrantes.numCuadrante(posX, posY);

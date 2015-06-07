@@ -1,5 +1,6 @@
 package com.example.jorge.guidin;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -34,12 +35,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.jorge.guidin.rutas.ListaCuadrantes;
 import com.example.jorge.guidin.sockets.Client;
 import com.example.jorge.guidin.wps.Coordenada;
 import com.example.jorge.guidin.wps.WPS;
 import com.example.jorge.guidin.wps.WPSException;
+
 
 
 public class IndicarDestino extends ActionBarActivity implements OnInitListener, OnClickListener,SensorEventListener{
@@ -153,7 +156,8 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
             public void onClick(View v) {
                 destinoInsertado = true;
-
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(btBuscar.getWindowToken (), 0);
                 consultarRutaServidor();
                 calculaRuta();
             }
@@ -464,29 +468,28 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
                         mResult2.setText(rutaList.get(1));
                     }
                     ruta = rutaAux;
-                    rutaList =  new ArrayList<String>(Arrays.asList(rutaAux.split(".")));
+                    rutaList =  new ArrayList<String>(Arrays.asList(rutaAux.split("\\.")));
                     cuadranteClave = cuadranteClaveAux;
                 }
             }else{
                 if(contador == 5) {
                     contador = 0;
-                    if (discapacidad.equals("visual")) {
-                        speakText(rutaList.get(0));
-                    } else {
-                        try {
-                            final ArrayList<String> finalRutaArray = rutaList;
-                            //Utilizado para poder escribir en el view desde otros hilos
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                    try {
+                        final ArrayList<String> finalRutaArray = rutaList;
+                        //Utilizado para poder escribir en el view desde otros hilos
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (discapacidad.equals("visual")) {
+                                    speakText(finalRutaArray.get(0));
+                                } else {
                                     mResult2.setText(finalRutaArray.get(0));
                                 }
-                            });
-                        }catch(Exception e){
-                            e.printStackTrace();
-                            System.out.print(e);
-                        }
-
+                            }
+                        });
+                    }catch(Exception e){
+                        e.printStackTrace();
+                        //System.out.print(e);
                     }
                 }
                 contador++;
@@ -506,7 +509,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     private boolean estaEnLaRuta(int cuadranteActual) {
         return listaCuadrantes.contains(String.valueOf(cuadranteActual));
     }
-
 
 
     @Override
