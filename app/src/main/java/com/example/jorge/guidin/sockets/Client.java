@@ -11,16 +11,7 @@ import java.net.UnknownHostException;
 
 import android.os.AsyncTask;
 
-import com.example.jorge.guidin.Login;
-
-/**
- * Creat
- *
- * ed by Jorge on 20/04/2015.
- */
 public class Client extends AsyncTask<String, Integer, Long> {
-
-//	private int[] camino;
 
     private int caminoCorrecto;
     private String ruta;
@@ -28,24 +19,24 @@ public class Client extends AsyncTask<String, Integer, Long> {
     private int cuadranteClave;
 
 
-
     @Override
     protected Long doInBackground(String... strings) {
 
-        String adresaServer ="tot.fdi.ucm.es"; //"147.96.96.209";//"172.20.10.6";//"192.168.1.43";//"192.168.1.34"; //"147.96.102.38";//
+        String adresaServer ="tot.fdi.ucm.es";
 
         int PORT = 22;
         Socket socket = null;
-        String origenX = strings[0];
-        String origenY = strings[1];
-        String origenZ = strings[2];
-        String destino = strings[3];
-        String orientacion = strings[4];
-        String posActualX = strings[5];
-        String posActualY = strings[6];
-        String posActualZ = strings[7];
-        String suerables = strings[8];
-        String discapacidad = strings[9];
+        String metodo = strings[0];
+        String origenX = strings[1];
+        String origenY = strings[2];
+        String origenZ = strings[3];
+        String destino = strings[4];
+        String orientacion = strings[5];
+        String posActualX = strings[6];
+        String posActualY = strings[7];
+        String posActualZ = strings[8];
+        String suerables = strings[9];
+        String discapacidad = strings[10];
 
 
         DataInputStream in = null;
@@ -62,7 +53,6 @@ public class Client extends AsyncTask<String, Integer, Long> {
             in = new DataInputStream(socket.getInputStream());
             out.flush();
 
-            /*
             out.writeUTF(suerables);
             out.writeUTF(discapacidad);
             out.writeUTF(origenX);
@@ -73,7 +63,8 @@ public class Client extends AsyncTask<String, Integer, Long> {
             out.writeUTF(posActualX);
             out.writeUTF(posActualY);
             out.writeUTF(posActualZ);
-            */
+
+            /* datos para pruebas
             out.writeUTF(suerables);
             out.writeUTF(discapacidad);
             out.writeUTF("18");
@@ -84,15 +75,13 @@ public class Client extends AsyncTask<String, Integer, Long> {
             out.writeUTF("18");
             out.writeUTF("14.5");
             out.writeUTF("4");
-
+            */
             listaCuadrantes=in.readUTF();
             ruta  = in.readUTF();
             cuadranteClave  = in.readInt();
             in.close();
             out.close();
             socket.close();
-
-
 
         } catch (SocketTimeoutException e) {
             System.err.println(" Error al conectar: \n" + e);
@@ -105,7 +94,6 @@ public class Client extends AsyncTask<String, Integer, Long> {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         return null;
     }
 

@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
@@ -54,29 +53,19 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
     private static final int MY_DATA_CHECK_CODE = 1234;
 
     private int posIni = -1;
-    private int posAct = -1;
     private float orientacion = 999;
-    private int contSupervisa = 50;
 
     private ListaCuadrantes cuadrantes;
     private WifiManager manager;
-    //private TextToSpeech mTts;
     private SensorEventListener giroscopio;
     private SensorManager mSensorManager;
-
     private float[] magnetic_angles;
-    private float[] accelerations;
-    private float giroSobreX;
-    private float giroSobreY;
-    private float giroSobreZ;
-    private boolean esGiroValido;
+    private boolean activaWifi;
 
-    private boolean movilHorizontal = true;
-    private boolean activaWifi = true;
     private boolean wifiActivado;
     private boolean destinoInsertado = false;
 
-    Button btBuscar,btDestino, btCancel,btVoz;
+    Button btBuscar,btVoz;
     private TextView mResult2;
     private EditText mResult1;
 
@@ -148,7 +137,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         cuadranteClave = -1;
         contador = 0;
 
-
         btVoz = (Button) findViewById(R.id.bVoz);
 
         btBuscar = (Button) findViewById(R.id.bBuscar);
@@ -164,7 +152,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
         });
     }
-
 
     public void onInit(int i) {
         if(discapacidad.equals("visual")) {
@@ -184,8 +171,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null,"bienvenida");
         while (ttobj.isSpeaking()){}
     }
-
-
 
     @Override
     public void onDestroy()
@@ -232,14 +217,12 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 
-
     public boolean hasVoicerec() {
         final PackageManager pm = getPackageManager();
         final List<ResolveInfo> activities = pm.queryIntentActivities(
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
         return (activities.size() != 0);
     }
-
 
     /** Llamada a la funcion Text To Speech*/
     private void checkTTS() {
@@ -389,7 +372,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
     private void actualizarSiguientePaso() {
         consultarRutaServidor();
-
     }
 
 
@@ -404,7 +386,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         try {
             Coordenada c = Menu.thread.getDatabase().calculatePosition(lista.scanAndShow());
             return c;
-
         } catch (WPSException e) {
             Log.e("ThreadUbicacion", e.getMessage());
             e.printStackTrace();
@@ -414,9 +395,6 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
 
 
     public void consultarRutaServidor(){
-		/*Llamada al servidor*/
-        //String origen = String.valueOf(posIni);
-        //String actual = String.valueOf(posAct);
 
         String origenX=String.valueOf(obtenerCoordenadaActual().getX());
         String origenY=String.valueOf(obtenerCoordenadaActual().getY());
@@ -449,13 +427,11 @@ public class IndicarDestino extends ActionBarActivity implements OnInitListener,
         String rutaAux = c.getRuta();
         ArrayList<String> rutaList;
         rutaList =  new ArrayList<String>(Arrays.asList(rutaAux.split("\\.")));
-        //String []rutaArray = r.split(".");//rutaAux.split(".");
         if (!rutaAux.equals("Recorrido finalizado.")) {
             if ((cuadranteClave == cuadranteActual) || (cuadranteClave == -1)) {
                 if (cuadranteClave == -1) {
                     cuadranteClave = cuadranteClaveAux;
                     ruta = rutaAux;
-                    //rutaArray = ruta.split(".");
                     if (discapacidad.equals("visual")) {
                         speakText(rutaList.get(0));
                     } else {

@@ -15,14 +15,10 @@ import javax.xml.parsers.FactoryConfigurationError;
 
 public class HttpServices extends Activity {
 
-//	public static String host = "31.170.164.18";  //"10.0.2.2";
-//	public static String port = "80";
-//	public static String urlServer = "http://proyectosi.hol.es/"; //"http://10.0.2.2/";
-
-	public static String host = "147.96.80.29";  //"10.0.2.2";
+	public static String host = "147.96.80.29";
 	public static String port = "80";
-	public static String urlServer = "http://tot.fdi.ucm.es/avanti/"; //"http://10.0.2.2/";
-    Activity context;
+	public static String urlServer = "http://tot.fdi.ucm.es/avanti/";
+
     public HttpServices(){
 
 	}
@@ -298,5 +294,29 @@ public class HttpServices extends Activity {
 			throw new HttpServicesException(e.getMessage());
 		}
     }
+
+	public String getLugar(int cuadrante){
+		String url = urlServer + "getLugar.php?cuadrante=" + cuadrante;
+		HttpGet httpget = new HttpGet(url);
+		HttpGet[] a = {httpget};
+
+		// Llamamos a la clase que ejecuta en segundo plano.
+		Conecta c= new Conecta();
+		c.execute(a);
+
+		// Esperamos a que termine de ejecutarse el hilo con el m�todo get.
+		try {
+			c.get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String response = c.getResponse();
+		return response;
+	}
 
 }

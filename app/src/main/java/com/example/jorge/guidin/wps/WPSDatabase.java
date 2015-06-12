@@ -78,7 +78,6 @@ public class WPSDatabase {
         double suma = 0;
         ArrayList<Coordenada> result = new ArrayList<Coordenada>();
 
-
         String[] columns = new String[3];
         columns[0] = "x";
         columns[1] = "y";
@@ -167,9 +166,7 @@ public class WPSDatabase {
             //result = (100 - pos1.level) - (100 - c.getInt(0));
             result = (pos1.level) - (c.getInt(0));
             c.close();
-        }/*else{
-			result = 0;
-		}*/
+        }
         return result;
     }
 
@@ -188,7 +185,6 @@ public class WPSDatabase {
         String selection = "MAC = ?;";
         String selectionArgs[] = new String[1];
         selectionArgs[0] = punto.BSSID;
-        //String groupBy = "x,y,z";
         Cursor c = database.query("repository", columns, selection, selectionArgs, null, null, null);
         c.moveToFirst();
         ArrayList<Coordenada> result = new ArrayList<Coordenada>();
@@ -216,7 +212,6 @@ public class WPSDatabase {
     public boolean isMacRegistered(String mac, Coordenada coord){
         String[] columns = new String[1];
         columns[0] = "MAC";
-        //String selection = "x = "+ coord.getX() + " AND y = " + coord.getY() + " AND z = " + coord.getZ() + " AND MAC =" + coord.getMac() + ";";
         String selection = "x = ? AND y = ? AND z = ? AND MAC = ?;";
         String selectionArgs[] = new String[4];
         selectionArgs[0] = "" + coord.getX();
@@ -288,24 +283,20 @@ public class WPSDatabase {
         selectionArgs[2] = "" + (c.getY()+5);
         selectionArgs[3] = "" + (c.getY()-5);
         String groupBy = "x,y,z";
-        //String groupBy = "x,y,z";
         Cursor cursor = database.query("repository", columns, selection, selectionArgs, groupBy, null, null);
         cursor.moveToFirst();
         ArrayList<Coordenada> result = new ArrayList<Coordenada>();
-        //HashMap<Double,Coordenada> result = new HashMap<Double,Coordenada>();
         Coordenada coord;
         double distancia;
         int j = 0;
         for(int i = 0; i < cursor.getCount(); i++){
             coord = new Coordenada();
-            //coord.setMac(punto.BSSID);
+
             coord.setX(cursor.getDouble(0));
             coord.setY(cursor.getDouble(1));
             coord.setZ(cursor.getDouble(2));
             distancia = Math.sqrt(Math.pow(coord.getX()-c.getX(),2) + Math.pow(coord.getY()-c.getY(), 2));
             coord.setDistanciaAlmacenada(distancia);
-            //coord.setStrength(c.getInt(3));
-            //result.put(distancia, coord);
             j = 0;
             while(j < result.size()){
                 if(result.get(j).getDistanciaAlmacenada()<= coord.getDistanciaAlmacenada()){

@@ -38,8 +38,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
     public static Activity activeActivity = null;
     public static ThreadDatos thread;
 
-    public final static int MENU_QUIT = 0;
-
     private String username;
     private String password;
     private String[] superables;
@@ -88,18 +86,15 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
         this.setListAdapter(adapter);
     }
 
-
     /**
      * Executed when a new TTS is instantiated. Some static text is spoken via TTS here.
      * @param i
      */
     public void onInit(int i)
     {
-       /* if(discapacidad.equals("visual")) {
-            ttobj.speak(vozInicial,
-                    TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                    null);
-        }*/
+       if(discapacidad.equals("visual")) {
+           speakText(vozInicial);
+        }
     }
     @Override
     public void onPause(){
@@ -115,7 +110,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
         ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "bienvenida");
     }
 
-
     @Override
     public void onDestroy()
     {
@@ -127,7 +121,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
         }
         super.onDestroy();
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Reproducción de voz
@@ -144,7 +137,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
             }
         }
 
-
         if (requestCode == REQUEST_CHECK_TTS) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // success, create the TTS instance
@@ -157,8 +149,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
             }
         }
     }
-
-
 
     public ThreadDatos createAndStartThread(){
         ThreadDatos t = new ThreadDatos(ThreadDatos.ESTADO_EJECUCION);
@@ -173,7 +163,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
         t.run();
         return t;
     }
-
 
     /*contro de las teclas fisicas*/
     @Override
@@ -196,7 +185,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
         return super.onKeyDown(keyCode, event);
     }
 
-
     public class IconAndText extends LinearLayout {
 
         private boolean isSelectable;
@@ -211,7 +199,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
             mIcon.setImageDrawable(icon);
 
             mIcon.setPadding(0, 2, 5, 0);
-
 
             addView(mIcon,  new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
@@ -248,7 +235,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
     }
 
     public class IconifiedTextListAdapter extends BaseAdapter {
-
 
         private Context mContext;
 
@@ -331,8 +317,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
                 finish();
             }
         }
-
-
     }
 
     public void logout(String user, String password){
@@ -351,7 +335,6 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
             DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
         }
     }
-
 
     public String getUsername(){
         return username;

@@ -37,7 +37,7 @@ public class Mapa extends View{
      */
     public static final int POSX_0_MAPA = 42;
     public static final int POSX_ORIGEN_REAL=2100;
-    public static final int POSY_ORIGEN_REAL=1050;
+    public static final int POSY_ORIGEN_REAL=1060;
 
     /**
      * Coordenada Y dentro del mapa que es en la BD la coordenadaY = 0;

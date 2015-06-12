@@ -35,7 +35,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
     private int discapacidad;
     private String discapacidadStr;
     private TextToSpeech ttobj;
-    final String vozInicial = "Está en el registro, a continuacion se le pedirán los datos para completar el registro";
+    final String vozInicial = "Está en el registro, a continuacion se le pedirán los datos para completar el registro. Diga su monbre";
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 0x100;
     private static final int REQUEST_CHECK_TTS = 0x1000;
     private static final int MY_DATA_CHECK_CODE = 1234;
@@ -94,11 +94,7 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
     public void onInit(int i)
     {
         if(discapacidadStr.equals("visual")) {
-            ttobj.speak(vozInicial,
-                    TextToSpeech.QUEUE_FLUSH,  // Drop all pending entries in the playback queue.
-                    null, "bienvenida");
-            while (ttobj.isSpeaking()){}
-            speakText("Diga su nombre");
+            speakText(vozInicial);
             reconocimientoDeVoz(VOICE_NOMBRE);
         }
     }
@@ -238,8 +234,6 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                     discapacidad = 2;
                     if (comprobarDatos() == "") {
                         register();
-                        speakText("Registro completado");
-                        finish();
                     }
                 }
             }
@@ -303,6 +297,14 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
                     ((EditText)findViewById(R.id.registerPassword)).getText().toString(),
                     ((EditText)findViewById(R.id.registerName)).getText().toString(),
                     list_supererables, discapacidad);
+            if(discapacidadStr.equals("visual")) {
+                //informamos de que se ha completado el registro
+                speakText("Registro completado");
+            }
+            //realizamos el login para ir directamente al menu con la sesion iniciada
+            TextView txtviewUser = (TextView) findViewById(R.id.registerUser);
+            TextView txtviewPass = (TextView) findViewById(R.id.registerPassword);
+            login(txtviewUser.getText().toString(), txtviewPass.getText().toString());
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -407,5 +409,28 @@ public class Registro extends ActionBarActivity implements TextToSpeech.OnInitLi
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void login(String user, String password) {
+        HttpServices service = new HttpServices();
+        try {
+            String result = service.login(user, password);
+            if(result.equals("")){
+                Intent i = new Intent(this, com.example.jorge.guidin.Menu.class);
+                startActivity(i);
+            }else if(result.equals("Servidor inaccesible")){
+                DialogController.createInformDialog(this, "Error en el servidor");
+            }else{
+                //controlar si es por voz, pedir otra vez los credenciales por voz
+                DialogController.createInformDialog(this, "Error en el login");
+            }
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            DialogController.createInformDialog(this, "Excepción: " + e.getMessage());
+        }
     }
 }

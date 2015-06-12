@@ -33,9 +33,6 @@ public class Medir extends ActionBarActivity {
 
     private WPS wps;
     public static List<ScanResult> resultados;
-    public static int elementoSelec;
-    public final static int MENU_REFRESH = 1;
-    public final static int MENU_INSERT = 2;
     private Double xActual, yActual, zActual, xUltima, yUltima, zUltima;
 
 
@@ -57,16 +54,12 @@ public class Medir extends ActionBarActivity {
         Button lessY = (Button)findViewById(R.id.yLess);
         Button lessZ = (Button)findViewById(R.id.zLess);
 
-
-
         aceptar.setOnClickListener(new android.view.View.OnClickListener(){
             public void onClick(View arg0) {
                 refresh();
                 HttpServices service = new HttpServices();
                 try {
                     if(service.ping()){
-
-
                         boolean error = false;
                         for(int i = 0; i < resultados.size(); i++){
                             try {
@@ -88,8 +81,6 @@ public class Medir extends ActionBarActivity {
                             actualizarInfo();
                             DialogController.createInformDialog(getContext(), "Todos los datos han sido insertados correctamente.");
                         }
-
-
                     }else{
                         DialogController.createInformDialog(getContext(), "Servidor inaccesible.");
                     }
@@ -140,7 +131,6 @@ public class Medir extends ActionBarActivity {
                 actualizarInfo();
             }
         });
-
     }
 
 
@@ -171,7 +161,6 @@ public class Medir extends ActionBarActivity {
     }
 
 
-
     private void refresh(){
         try {
             resultados = wps.scanAndShow();
@@ -180,7 +169,6 @@ public class Medir extends ActionBarActivity {
             for(int i = 0; i < resultados.size(); i++){
                 valores[i] = resultados.get(i).SSID + " (" + resultados.get(i).BSSID + ")";
             }
-
 
         } catch (WPSException e) {
             e.printStackTrace();
@@ -222,13 +210,11 @@ public class Medir extends ActionBarActivity {
             AlertDialog alert = builder.create();
             alert.show();
         }
-
     }
 
 
     public Activity getContext(){
         return this;
     }
-
 
 }
