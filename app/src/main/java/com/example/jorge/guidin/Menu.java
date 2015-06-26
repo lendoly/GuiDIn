@@ -106,7 +106,7 @@ public class Menu extends ListActivity implements TextToSpeech.OnInitListener{
     }
 
     public void speakText(String texto){
-        Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG).show();
         ttobj.speak(texto, TextToSpeech.QUEUE_FLUSH, null, "bienvenida");
     }
 

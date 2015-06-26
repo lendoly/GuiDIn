@@ -131,6 +131,12 @@ public class Mapa extends View{
             canvas.drawText("y: INACCESIBLE" , 20, 200, mPaint);
             canvas.drawText("z: INACCESIBLE" , 20, 220, mPaint);
             canvas.drawText("Cuadrante: INACCESIBLE", 20, 240, mPaint);
+            /* Prueba de colocar el punto en las cuatro esquinas del pasillo largo
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float) ((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            */
 
         }else{
 		/*
@@ -146,10 +152,12 @@ public class Mapa extends View{
             mPaint.setColor(Color.RED);
 
             canvas.drawCircle((float)((POSX_ORIGEN_REAL-(posX*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (posY*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
-            /*canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            /* Prueba de colocar el punto en las cuatro esquinas del pasillo largo
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
             canvas.drawCircle((float)((POSX_ORIGEN_REAL-(45*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
             canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float)((POSY_ORIGEN_REAL - (15*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
-            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float) ((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);*/
+            canvas.drawCircle((float)((POSX_ORIGEN_REAL-(1*Mapa.escalaMetro))+ Mapa.POSX_0_MAPA) + x, (float) ((POSY_ORIGEN_REAL - (12.5*Mapa.escalaMetro)) + Mapa.POSY_0_MAPA) + y, 5, mPaint);
+            */
             mPaint.setColor(Color.BLACK);
             @SuppressWarnings("unused")
             int origen = listaCuadrantes.numCuadrante(posX, posY);

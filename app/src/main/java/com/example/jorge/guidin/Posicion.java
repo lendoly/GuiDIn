@@ -110,12 +110,13 @@ public boolean onOptionsItemSelected(MenuItem item) {
         m.setPosY(y);
         m.setPosZ(z);
         m.setCuadrante(c);
+        /*
         HttpServices service = new HttpServices();
         String lugar = service.getLugar(c);
         String discapacidad = Login.getDiscapacidad();
         if((discapacidad.equals("visual"))&&(!lugar.equals(""))){
             speakText("se encuentra cerca de " + lugar);
-        }
+        }*/
     }
 
     public void pintarPosicion(){
