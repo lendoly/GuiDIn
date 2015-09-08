@@ -2,19 +2,92 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jorge.guidin" >
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name=".Login"
+            android:label="@string/title_activity_login" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Menu"
+            android:label="@string/title_activity_menu"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Wifis"
+            android:label="@string/title_activity_wifis"
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jorge.guidin.Menu" />
+        </activity>
+        <activity
+            android:name=".DetalleWifi"
+            android:label="@string/title_activity_scan_result"
+            android:parentActivityName=".Wifis"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jorge.guidin.Menu" />
+        </activity>
+        <activity
+            android:name=".Acelerometro"
+            android:label="@string/title_activity_acelerometro"
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Menu" />
+        </activity>
+        <activity
+            android:name=".Registro"
+            android:label="@string/title_activity_registro"
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Menu" />
+        </activity>
+        <activity
+            android:name=".Medir"
+            android:label="@string/title_activity_medir"
+            android:parentActivityName=".Menu"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Menu" />
+        </activity>
+        <activity
+            android:name=".Posicion"
+            android:label="@string/title_activity_posicion"
+            android:parentActivityName=".Menu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jorge.guidin.Menu" />
+        </activity>
+        <activity
+            android:name=".IndicarDestino"
+            android:label="@string/title_activity_indicar_destino"
+            android:parentActivityName=".Menu" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jorge.guidin.Menu" />
         </activity>
     </application>
 

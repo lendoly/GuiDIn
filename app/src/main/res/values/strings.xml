@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Guidin</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="title_section4">Section 4</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
+    <string name="app_name">GuiDIn</string>
+    <string name="app_longname">GUIa para pesonas con Discapacidad en INteriores</string>
     <string name="action_settings">Settings</string>
+    <string name="registro">Registro</string>
+    <string name="title_activity_register">Register</string>
+    <string name="resgistrarse">Registrarse</string>
+    <string name="entrar">Entrar</string>
+    <string name="recordar_credenciales">Recordar credenciales</string>
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="title_activity_principal">Principal</string>
+    <string name="menu">Menu</string>
+    <string name="wifis">Actividad Wifi</string>
+    <string name="posicion">Posición en el mapa</string>
+    <string name="aplicacion">Aplicación real</string>
+    <string name="pruebas">Ver acelerometros</string>
+    <string name="ruta">Indicar destino</string>
+    <string name="medir">Medir intensidades</string>
+    <string name="salir">Cerrar sesión</string>
+    <string name="title_activity_wifis">Wifis</string>
+    <string name="SSID">SSID:</string>
+    <string name="BSSID">BSSID:</string>
+    <string name="frecuencia">Frecuencia:</string>
+    <string name="Potencia">Potencia:</string>
+    <string name="infowifi">Información de la red wifi</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_scan_result">Información de la red wifi</string>
+    <string name="title_activity_acelerometro">Acelerometro</string>
+    <string name="acc_en_x">Acc. en X:</string>
+    <string name="acc_en_y">Acc. en Y:</string>
+    <string name="acc_en_z">Acc. en Z:</string>
+    <string name="g_sobre_eje_x">G. sobre eje X:</string>
+    <string name="g_sobre_eje_y">G. sobre eje Y:</string>
+    <string name="g_sobre_eje_z">G. sobre eje Z:</string>
+    <string name="giro_valido">¿Giro válido?::</string>
+    <string name="acc_norm_eje_x">Acc. normalizada (eje X):</string>
+    <string name="acc_norm_eje_y">Acc. normalizada (eje Y):</string>
+    <string name="acc_norm_eje_z">Acc. normalizada (eje Z):</string>
+    <string name="acc_x_mapa">AccX mapa(si pos. ok):</string>
+    <string name="acc_y_mapa">AccY mapa(si pos. ok):</string>
+    <string name="title_activity_registro">Registro</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_medir">Medir intensidades wifi</string>
+    <string name="title_activity_menu2">Menu2</string>
+    <string name="title_activity_login">GuiDIn</string>
+    <string name="Salir">Salir</string>
+    <string name="title_activity_scan_result_activity2">ScanResultActivity2</string>
+    <string name="title_activity_wifis2">Wifis2</string>
+    <string name="title_activity_wifis_ab">WifisAB</string>
+    <string name="destino">Buscar destino</string>
+    <string name="voz">Busqueda por voz</string>
+    <!--- Checkbox -->
+    <string name="escaleras">Escaleras</string>
+    <string name="ascensor">Ascensor</string>
+    <string name="puerta">Puerta</string>
+    <string name="rampa">Rampa</string>
+    <!--- Botones -->
+    <string name="boton_aceptar">Aceptar</string>
+    <string name="boton_cancelar">Cancelar</string>
+    <string name="title_activity_posicion">Posicion</string>
+    <string name="title_activity_indicar_destino">IndicarDestino</string>
+
 
 </resources>
